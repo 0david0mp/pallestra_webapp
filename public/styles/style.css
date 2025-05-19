@@ -70,27 +70,9 @@ body {
     min-height: 100vh;
 }
 
-#content-container {
-    /* footer height */
-    padding-bottom: 37rem;
+#content-container.no-footer {
+    padding-bottom: 5rem;
 }
-
-#hero {
-    font-size: 8rem;
-    font-weight: 1000;
-    display: flex;
-    align-items: center;
-
-    height: 80vh;
-    text-align: center;
-    background-color: var(--md-sys-color-on-primary);
-    color: var(--md-sys-color-primary);
-
-    * {
-        margin: auto;
-    }
-}
-
 
 #content {
     margin: auto;
@@ -100,8 +82,7 @@ body {
     margin-top: 3em;
 
     p,
-    h1,
-    button {
+    h1 {
         margin: 1em;
     }
 
@@ -112,11 +93,17 @@ body {
     img {
         object-fit: cover;
         border-radius: 2em;
+        height: auto;
     }
 
     .button-container {
         display: flex;
         justify-content: flex-end;
+        bottom: 0;
+        padding: 1em;
+        position: relative;
+        margin-top: auto;
+        gap: 1em;
     }
 
     button {
@@ -144,6 +131,11 @@ body {
         color: inherit;
     }
 
+    .error-button {
+        background-color: var(--md-sys-color-error-container);
+        color: var(--md-sys-color-on-error-container);
+    }
+
     .card {
         margin-block: 4em;
         position: relative;
@@ -156,18 +148,64 @@ body {
 
     .card-content {
         width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+        flex-grow: 1;
 
         p {
             max-width: 60ch;
         }
 
+        .difficulty {
+            display: inline;
+            padding: 0.6em;
+            border-radius: 2rem;
+        }
+
+        .difficulty-easy {
+            background-color: var(--md-sys-color-on-tertiary-container);
+            color: var(--md-sys-color-tertiary-container);
+        }
+
+        .difficulty-medium {
+            background-color: var(--md-sys-color-on-secondary-container);
+            color: var(--md-sys-color-secondary-container);
+        }
+        .difficulty-hard {
+            background-color: var(--md-sys-color-on-error-container);
+            color: var(--md-sys-color-error-container);
+        }
+
         h1 {
             font-size: 1.6rem;
         }
+    } /* .card-content end */
+
+    #new-workout-button {
+        display: block;
+        margin: 0 auto;
+        font-size: 1.5rem;
+        font-weight: 1000;
+    }
+} /* #content end*/
+
+#hero {
+    font-size: clamp(1.8rem, calc(8vw + 1rem), 8rem);
+    font-weight: 1000;
+    display: flex;
+    align-items: center;
+
+    height: 80vh;
+    text-align: center;
+    background-color: var(--md-sys-color-on-primary);
+    color: var(--md-sys-color-primary);
+
+    * {
+        margin: auto;
     }
 }
 
-/* #content end*/
 
 /* -------------------- header -------------------- */
 
@@ -216,7 +254,7 @@ nav #active {
     display: inline;
 }
 
-.dropdown:not(:hover)> a::after {
+.dropdown:not(:hover)>a::after {
     margin-left: 1em;
     content: "▼";
 }
@@ -310,7 +348,6 @@ header .logo {
 }
 
 
-
 /* media queries */
 
 @media screen and (max-width: 810px) {
@@ -349,12 +386,18 @@ header .logo {
         position: absolute;
     }
 
-    .dropdown-menu.open {
-        visibility: visible;
-        top: 0;
-        display: block;
-        position: relative;
-        border-block: 1px solid var(--md-sys-color-outline-variant);
+    .dropdown.open {
+        >a::after {
+            content: "▲";
+        }
+
+        .dropdown-menu {
+            visibility: visible;
+            top: 0;
+            display: block;
+            position: relative;
+            border-block: 1px solid var(--md-sys-color-outline-variant);
+        }
     }
 
     #content {
@@ -399,15 +442,29 @@ header .logo {
         border-right: 0;
         border-bottom: 1px solid var(--md-sys-color-on-primary-container);
     }
+
+    #content-container:not(.no-footer) {
+        /* footer height */
+        padding-bottom: 37rem;
+    }
 }
 
-@media screen and (min-width: 810px) {
+
+@media screen and (min-width: 811px) {
     .dropdown:hover .dropdown-menu {
         display: block;
         visibility: visible;
     }
 
     .card img {
+        flex-shrink: 1;
+        height: 100%;
         max-width: 33%;
     }
+
+    #content-container:not(.no-footer) {
+        /* footer height */
+        padding-bottom: 28rem;
+    }
+
 }

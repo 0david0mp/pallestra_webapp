@@ -64,8 +64,6 @@ Ho pensato di chiamare la palestra 'XEPS', e tutti i immagini (logo,
 placeholder, ...) saranno disegnati a mano per non avere bisogno di cercare in
 internet.
 
-![logo](./media/)
-
 ## Nota
 
 Il login sarà un semplice login, implementato tramite cookies, e i passwords

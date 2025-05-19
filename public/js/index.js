@@ -12,7 +12,7 @@ function menuButtonEventHandler(event) {
 }
 
 function dropdownMenuEventHandler() {
-    let dropdownMenu = document.querySelector(".dropdown-menu");
+    let dropdownMenu = document.querySelector(".dropdown");
 
     console.log("dropdown menu open: " + dropdownOpen)
 
@@ -21,11 +21,11 @@ function dropdownMenuEventHandler() {
     else dropdownMenu.classList.remove("open");
 }
 
-window.onload = function() {
+window.addEventListener('load', function() {
     let dropdownButton = document.querySelector(".dropdown");
     let menuButton = document.querySelector("#menu-button");
 
     menuButton.addEventListener("click", (event) => { menuButtonEventHandler(event); });
 
     dropdownButton.addEventListener("click", dropdownMenuEventHandler);
-}
+});
