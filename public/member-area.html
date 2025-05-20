@@ -36,25 +36,25 @@
 
     </header>
 
-    <div id="new-workout-popup-container">
-    <div id="new-workout-popup">
-      <h2>New workout</h2>
-      <form>
-        <input type="text" placeholder="Name *" id="new-workout-name" required="">
-        <select id="new-workout-difficulty" required="">
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-        </select>
-        <input type="text" placeholder="Freqency *" id="new-workout-frequency" required="">
-        <textarea id="new-workout-description" required="" placeholder="Description *"></textarea>
-        <input type="number" value="1" min="1" max="20" id="new-workout-sets" required="">
-        <div class="button-container">
-          <input type="reset"  value="Reset">
-          <input type="submit" id="submit-workout" value="Add workout">
-        </div>
-      </form>
-    </div>
+    <div id="new-workout-popup-container" class="popup-container">
+      <div id="new-workout-popup" class="popup">
+        <h2>New workout</h2>
+        <form>
+          <input type="text" placeholder="Name *" id="new-workout-name" required="">
+          <select id="new-workout-difficulty" required="">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+          <input type="text" placeholder="Freqency *" id="new-workout-frequency" required="">
+          <textarea id="new-workout-description" required="" placeholder="Description *"></textarea>
+          <input type="number" value="1" min="1" max="20" id="new-workout-sets" required="">
+          <div class="button-container">
+            <input type="reset" value="Reset">
+            <input type="submit" id="submit-workout" value="Add workout">
+          </div>
+        </form>
+      </div>
     </div>
 
     <section id="content-container" class="no-footer">

@@ -1,5 +1,7 @@
 const express = require('express');
 const { Pool } = require('pg');
+const cookieParser = require('cookie-parser');
+
 const app = express();
 const port = 8000;
 
@@ -9,15 +11,36 @@ const pool = new Pool({
 });
 
 const memberCf = "RSSMRC80A01F205X";
-const workoutid = 1;
 
-// middleware
+// -------------------- middleware
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.static("public"));
 
-// api
+// -------------------- api
+app.post('/api/v1/login', async (req, res) => {
+    let result = await pool.query(
+        "SELECT " +
+        "    member.cf " +
+        "FROM member " +
+        "WHERE member.cf = '" + `${req.body.cf}` + "'; "
+    );
+
+    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + req.body.cf + "\n\t" + JSON.stringify(result.rows));
+    res.status((result.rowCount === 0) ? 403 : 200)
+
+    if (res.statusCode === 403) {
+        res.end();
+        return;
+    }
+
+    res.cookie('user', req.body.cf, { httpOnly: true, maxAge: 14 * 24 * 60 * 60 * 1000 });
+    res.send();
+});
+
 app.get('/api/v1/workouts', async (req, res) => {
-    // let memberCf = req.cookies.memberid
+    let memberCf = req.cookies.user;
+
     let result = await pool.query(
         "SELECT " +
         "    workout_plan.id, " +
@@ -29,6 +52,7 @@ app.get('/api/v1/workouts', async (req, res) => {
         "    JOIN member ON followed_by.member = member.cf " +
         "WHERE member.cf = '" + `${memberCf}` + "'; "
     );
+
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + memberCf);
     res.status(200).send(JSON.stringify(result.rows));
 });
@@ -120,7 +144,6 @@ app.use((req, res, next) => {
 });
 app.use((req, res) => {
     res.status(404).send('invalid url');
-    next();
 });
 
 // start server

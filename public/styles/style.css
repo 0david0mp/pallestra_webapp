@@ -201,7 +201,7 @@ input[type='reset'] {
     font-weight: 1000;
 }
 
-#new-workout-popup-container {
+.popup-container {
     visibility: hidden;
     position: fixed;
     top: 0;
@@ -212,17 +212,16 @@ input[type='reset'] {
     background-color: rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
-    h1 {
-        padding: 1em;
-        display: inline;
+    h2 {
+        padding: 0.8em 0.8em 1em;
     }
 }
 
-#new-workout-popup-container.open {
+.popup-container.open {
     visibility: visible;
 }
 
-#new-workout-popup-container #new-workout-popup {
+.popup-container .popup {
     position: relative;
     padding: 1em;
     margin: auto;
@@ -232,7 +231,7 @@ input[type='reset'] {
     max-width: 95%;
 }
 
-#new-workout-popup-container #new-workout-popup form {
+.popup-container .popup form {
     display: flex;
     flex-direction: column;
     gap: 1em;
@@ -245,6 +244,7 @@ input[type='reset'] {
     }
 
     input[type="text"],
+    input[type='password'],
     input[type="number"],
     textarea,
     select
@@ -529,7 +529,8 @@ header .logo {
 
 
 @media screen and (min-width: 811px) {
-    .dropdown:hover, .dropdown:focus-within .dropdown-menu {
+    .dropdown:hover .dropdown-menu,
+    .dropdown:focus-within .dropdown-menu {
         display: block;
         visibility: visible;
     }
