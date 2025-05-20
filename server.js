@@ -38,6 +38,12 @@ app.post('/api/v1/login', async (req, res) => {
     res.send();
 });
 
+app.get('/api/v1/logout', async (req, res) => {
+    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + req.cookies.user);
+
+    res.clearCookie('user').send();
+});
+
 app.get('/api/v1/workouts', async (req, res) => {
     let memberCf = req.cookies.user;
 

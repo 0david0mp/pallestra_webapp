@@ -211,5 +211,10 @@ window.addEventListener('load', async () => {
             newWorkoutSubmitListener();
             event.preventDefault();
         });
+
+        document.getElementById("logout-button").addEventListener('click', async () => {
+            await fetch('/api/v1/logout');
+            document.location.href = '/index.html'
+        });
     }
 })

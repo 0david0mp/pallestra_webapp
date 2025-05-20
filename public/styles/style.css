@@ -72,7 +72,7 @@ body {
 }
 
 #content-container.no-footer {
-    padding-bottom: 5rem;
+    padding-bottom: 3rem;
 }
 
 #content {
@@ -192,9 +192,13 @@ input[type='reset'] {
     color: var(--md-sys-color-on-error-container);
 }
 
+#logout-button,
 #new-workout-button {
     display: block;
-    margin: 0 auto;
+    margin: 2em auto;
+}
+
+#new-workout-button {
     font-size: 1.5rem;
     font-weight: 1000;
 }
