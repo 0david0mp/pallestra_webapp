@@ -181,6 +181,12 @@ input[type='reset'] {
     border: 0;
 }
 
+button:hover,
+input[type='submit']:hover,
+input[type='reset']:hover {
+    transform: translateY(-5px);
+}
+
 .filled-button {
     background-color: var(--md-sys-color-primary-container);
     color: var(--md-sys-color-on-primary-container);
@@ -192,10 +198,10 @@ input[type='submit'] {
     color: var(--md-sys-color-on-secondary-container);
 }
 
-.tonal-button,
-input[type='submit'] {
-    background-color: var(--md-sys-color-secondary-container);
-    color: var(--md-sys-color-on-secondary-container);
+.tonal-button:hover,
+input[type='submit']:hover {
+    background-color: var(--md-sys-color-on-secondary-container);
+    color: var(--md-sys-color-secondary-container);
 }
 
 .outlined-button,
