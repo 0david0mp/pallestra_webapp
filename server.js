@@ -100,10 +100,31 @@ app.post('/api/v1/workouts', async (req, res) => {
 });
 
 app.get('/api/v1/workout/:workoutid', async (req, res) => {
-    // let workoutid = req.params.workoutid
+    let workoutid = req.params.workoutid
+    let memberCf = req.cookies.user
+
     let result = await pool.query(
-        "SELECT  " +
-        "    workout_plan.id" +
+        "SELECT " +
+        "    workout_plan.id " +
+        "FROM workout_plan " +
+        "    JOIN followed_by ON followed_by.workout_plan = workout_plan.id " +
+        "    JOIN member ON followed_by.member = member.cf " +
+        "WHERE workout_plan.id = $1" +
+        "    AND member.cf = $2;",
+        [parseInt(workoutid), memberCf]
+    );
+
+    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + memberCf);
+
+    if (result.rowCount === 0) {
+        console.log("FORBIDDEN");
+        res.status(403).end();
+        return;
+    }
+
+    result = await pool.query(
+        "SELECT " +
+        "    workout_plan.id, " +
         "    workout_plan.name AS name, " +
         "    workout_plan.difficulty_level, " +
         "    workout_plan.sets, " +
@@ -112,19 +133,22 @@ app.get('/api/v1/workout/:workoutid', async (req, res) => {
         "    exercise.description, " +
         "    equipment.name AS equipment " +
         "FROM workout_plan " +
-        "   JOIN workout_details ON workout_details.workout_plan = workout_plan.id " +
-        "   JOIN exercise ON workout_details.exercise = exercise.id " +
-        "   JOIN equipment ON exercise.equipment = equipment.id " +
-        "WHERE workout_plan.id = " + `${workoutid}` + " " +
-        "ORDER BY workout_details.exercise_order; "
+        "    JOIN workout_details ON workout_details.workout_plan = workout_plan.id " +
+        "    JOIN exercise ON workout_details.exercise = exercise.id " +
+        "    JOIN equipment ON exercise.equipment = equipment.id " +
+        "    JOIN followed_by ON followed_by.workout_plan = workout_plan.id " +
+        "    JOIN member ON followed_by.member = member.cf " +
+        "WHERE workout_plan.id = $1 " +
+        "    AND member.cf = $2 " +
+        "ORDER BY workout_details.exercise_order;",
+        [workoutid, memberCf]
     );
-    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + memberCf);
+
     res.status(200).send(JSON.stringify(result.rows));
 });
 
 
 app.delete('/api/v1/workouts', async (req, res) => {
-    // let workoutid = req.params.workoutid
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
     let result = await pool.query(
         "DELETE " +

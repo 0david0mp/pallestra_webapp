@@ -76,8 +76,14 @@ body {
 }
 
 #content {
+    * {
+        transition: 0.2s;
+    }
+
     margin: auto;
     width: min(66%, 60em);
+
+    margin-top: 3em;
 
     h1 {
         margin: 0.77em;
@@ -85,7 +91,7 @@ body {
     }
 
     p {
-        margin: 0 1em 1lh;
+        margin: 1lh 1em;
         font-size: 1.1rem;
     }
 
@@ -102,8 +108,14 @@ body {
         display: flex;
         gap: 1em;
         align-items: stretch;
-        background-color: var(--md-sys-color-surface-container-highest);
+        background-color: var(--md-sys-color-surface-container-high);
         border-radius: var(--border-radius);
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        background-color: var(--md-sys-color-surface-container-highest);
+        cursor: pointer;
     }
 
     .card-content {
@@ -180,6 +192,12 @@ input[type='submit'] {
     color: var(--md-sys-color-on-secondary-container);
 }
 
+.tonal-button,
+input[type='submit'] {
+    background-color: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+}
+
 .outlined-button,
 input[type='reset'] {
     border: 2px solid var(--md-sys-color-outline-variant);
@@ -187,9 +205,14 @@ input[type='reset'] {
     color: inherit;
 }
 
+.outlined-button:hover,
+input[type='reset']:hover {
+    border: 2px solid var(--md-sys-color-outline);
+}
+
 .error-button {
-    background-color: var(--md-sys-color-error-container);
-    color: var(--md-sys-color-on-error-container);
+    background-color: var(--md-sys-color-on-error-container);
+    color: var(--md-sys-color-error-container);
 }
 
 #logout-button,
@@ -214,6 +237,7 @@ input[type='reset'] {
     background-color: rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
+
     h2 {
         padding: 0.8em 0.8em 1em;
     }
@@ -240,8 +264,7 @@ input[type='reset'] {
     padding: 0.9em;
 
     input::placeholder,
-    textarea::placeholder
-    {
+    textarea::placeholder {
         color: var(--md-sys-color-on-surface-variant);
     }
 
@@ -249,8 +272,7 @@ input[type='reset'] {
     input[type='password'],
     input[type="number"],
     textarea,
-    select
-    {
+    select {
         appearance: textfield;
         font-size: 1.2rem;
         background-color: var(--md-sys-color-surface-container-highest);
@@ -308,17 +330,13 @@ nav ul {
     display: flex;
 }
 
-nav li {
-    box-shadow: inset 0 0 0 0 var(--md-sys-color-surface-bright);
-
-    a {
-        padding: 1.1em 2em;
-        display: block;
-    }
+nav li a {
+    padding: 1.1em 2em;
+    display: block;
 }
 
 nav li:hover:not(#active) {
-    box-shadow: inset 100vw 0 0 0 var(--md-sys-color-surface-bright);
+    background-color: var(--md-sys-color-surface-bright);
 }
 
 nav #active {
@@ -337,7 +355,8 @@ nav #active {
     content: "▼";
 }
 
-.dropdown:focus-within>a::after, .dropdown:hover>a::after {
+.dropdown:focus-within>a::after,
+.dropdown:hover>a::after {
     margin-left: 1em;
     content: "▲";
 }
@@ -531,6 +550,7 @@ header .logo {
 
 
 @media screen and (min-width: 811px) {
+
     .dropdown:hover .dropdown-menu,
     .dropdown:focus-within .dropdown-menu {
         display: block;

@@ -205,12 +205,11 @@ window.addEventListener('load', async () => {
             event.preventDefault();
         });
 
-
+<<<<<<< HEAD
         document.getElementById("logout-button").addEventListener('click', async () => {
             await fetch('/api/v1/logout');
             document.location.href = '/index.html'
-        });
-
+=======
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('click', async () => {
                 let workoutId = card.id.split("-")[1];
@@ -225,7 +224,7 @@ window.addEventListener('load', async () => {
 
                 console.log(body)
             });
-
+>>>>>>> master
         });
     }
 })

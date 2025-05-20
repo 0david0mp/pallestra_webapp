@@ -200,32 +200,16 @@ window.addEventListener('load', async () => {
         console.log("error requesting workouts")
         throw err;
     } finally {
+        let buttons = document.querySelectorAll(".error-button");
+        buttons.forEach(button => {
+            let id = button.parentElement.parentElement.parentElement
+                .id.split("-")[1];
+            button.addEventListener('click', () => { deleteWorkoutClickListener(id); });
+        });
+
         document.getElementById("submit-workout").addEventListener('click', (event) => {
             newWorkoutSubmitListener();
             event.preventDefault();
-        });
-
-
-        document.getElementById("logout-button").addEventListener('click', async () => {
-            await fetch('/api/v1/logout');
-            document.location.href = '/index.html'
-        });
-
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', async () => {
-                let workoutId = card.id.split("-")[1];
-                let result = await fetch("/api/v1/workout/" + workoutId);
-
-                if (!result.ok) {
-                    console.log('Error on fetching workout ' + workoutId);
-                    return
-                }
-
-                let body = await result.json();
-
-                console.log(body)
-            });
-
         });
     }
 })
