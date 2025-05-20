@@ -29,6 +29,7 @@ app.get('/api/v1/workouts', async (req, res) => {
         "    JOIN member ON followed_by.member = member.cf " +
         "WHERE member.cf = '" + `${memberCf}` + "'; "
     );
+    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + memberCf);
     res.status(200).send(JSON.stringify(result.rows));
 });
 
@@ -41,7 +42,7 @@ app.post('/api/v1/workouts', async (req, res) => {
     const followedByQuery = "INSERT INTO \"followed_by\" (workout_plan, member, status) VALUES " +
         "($1, $2, $3) RETURNING *;";
 
-    console.log("[API] POST(" + req.url + ")  " + JSON.stringify(req.body));
+    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
     try {
         await client.query("BEGIN");
         let resultWorkout = await client.query(
@@ -86,13 +87,14 @@ app.get('/api/v1/workout/:workoutid', async (req, res) => {
         "WHERE workout_plan.id = " + `${workoutid}` + " " +
         "ORDER BY workout_details.exercise_order; "
     );
+    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + memberCf);
     res.status(200).send(JSON.stringify(result.rows));
 });
 
 
 app.delete('/api/v1/workouts', async (req, res) => {
     // let workoutid = req.params.workoutid
-    console.log("[API] DELETE(" + req.url + ")  " + JSON.stringify(req.body));
+    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
     let result = await pool.query(
         "DELETE " +
         "FROM workout_plan " +
@@ -124,5 +126,4 @@ app.use((req, res) => {
 // start server
 app.listen(port, () => {
     console.log("app listening on http://0.0.0.0:" + port)
-    console.log("(i) only errors will be shown (fe. [timestamp]:ip url)")
 });

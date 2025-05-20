@@ -1,3 +1,14 @@
+
+let popupContainer = document.getElementById("new-workout-popup-container");
+
+function closePopup() {
+    popupContainer.classList.remove("open");
+}
+
+function openPopup() {
+    popupContainer.classList.add("open");
+}
+
 function newCard(cardOptions) {
     const parent = document.getElementById("content");
     let card = document.createElement("div");
@@ -63,13 +74,25 @@ function newCard(cardOptions) {
     parent.insertBefore(card, document.getElementById("new-workout-button"));
 }
 
-async function newWorkoutClickListener() {
+async function newWorkoutSubmitListener() {
+    let name = document.getElementById("new-workout-name");
+    let difficulty = document.getElementById("new-workout-difficulty");
+    let frequency = document.getElementById("new-workout-frequency");
+    let description = document.getElementById("new-workout-description");
+    let sets = document.getElementById("new-workout-sets");
+
+    let nameValue = name.value;
+    let difficultyValue = difficulty.value;
+    let frequencyValue = frequency.value;
+    let descriptionValue = description.value;
+    let setsValue = sets.value;
+
     let data = {
-        name: "Beginer health",
-        description: "Workout description",
-        frequency: "3x a week",
-        difficulty: "easy",
-        sets: 1
+        name: nameValue,
+        description: descriptionValue,
+        frequency: frequencyValue,
+        difficulty: difficultyValue.toLowerCase(),
+        sets: setsValue
     }
 
     let result = await fetch("/api/v1/workouts", {
@@ -102,6 +125,11 @@ async function newWorkoutClickListener() {
             buttonText: "delete"
         }]
     });
+
+    document.querySelector("#new-workout-popup form").reset();
+
+    // close popup
+    closePopup();
 }
 
 async function deleteWorkoutClickListener(id) {
@@ -123,10 +151,18 @@ async function deleteWorkoutClickListener(id) {
     document.getElementById(`workout-${id}`).remove();
 }
 
+window.addEventListener('click', (event) => {
+    if (event.target.id === 'new-workout-popup-container') {
+        closePopup();
+    }
+});
+
 window.addEventListener('load', async () => {
     let newWorkoutButton = document.getElementById("new-workout-button");
 
-    newWorkoutButton.addEventListener('click', newWorkoutClickListener);
+    newWorkoutButton.addEventListener('click', () => {
+        openPopup();
+    });
 
     try {
         let result = await fetch("/api/v1/workouts");
@@ -169,6 +205,11 @@ window.addEventListener('load', async () => {
             let id = button.parentElement.parentElement.parentElement
                 .id.split("-")[1];
             button.addEventListener('click', () => { deleteWorkoutClickListener(id); });
+        });
+
+        document.getElementById("submit-workout").addEventListener('click', (event) => {
+            newWorkoutSubmitListener();
+            event.preventDefault();
         });
     }
 })
