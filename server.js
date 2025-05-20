@@ -58,7 +58,8 @@ app.get('/api/v1/workouts', async (req, res) => {
 });
 
 app.post('/api/v1/workouts', async (req, res) => {
-    // let memberCf = req.cookies.memberid
+    let memberCf = req.cookies.user
+
     const client = await pool.connect();
     const workoutQuery =
         "INSERT INTO \"workout_plan\"(id, name, description, frequency, difficulty_level, sets) VALUES " +
