@@ -15,7 +15,7 @@
         <h2>XEPS</h2>
       </a></div>
     <input type="checkbox" id="menu-toggle">
-    <label tabindex="0" for="menu-toggle" id="menu-button">=</label>
+    <label tabindex="0" for="menu-toggle" id="menu-button">☰</label>
     <nav class="navbar">
       <ul>
         <li id="active"><a href="#">Home</a>
@@ -31,19 +31,23 @@
     </nav>
   </header>
 
-    <div class="popup-container open">
-      <div class="popup">
-        <h2>Login</h2>
-        <form id="login-form">
-          <input id="cf-input" min-length="16" maxlength="16" type="text" value="" placeholder="CF">
-          <input id="pass-input" type="password" value="" placeholder="password">
-          <div class="button-container">
-            <button class="outlined-button" id="cancel-button">Cancel</button>
-            <input type="submit" value="Login" id="login-button">
-          </div>
-        </form>
-      </div>
-    </div>
+  <div class="popup-container open">
+    <div class="popup">
+      <h2>Login</h2>
+      <form id="login-form">
+        <input id="cf-input" min-length="16" maxlength="16" type="text" value="" placeholder="CF">
+        <input id="pass-input" type="password" value="" placeholder="password">
+        <div class="button-container">
+          <!-- TODO: change location of js -->
+          <button
+            onclick="location.href=(document.referrer) ? document.referrer : '/' ;"
+            class="outlined-button"
+            id="cancel-button">Cancel</button>
+          <input type="submit" value="Login" id="login-button">
+        </div>
+      </form>
+    </div>  <!-- .popup -->
+  </div> <!-- .popup-container -->
 </body>
 
 </html>

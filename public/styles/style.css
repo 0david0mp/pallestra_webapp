@@ -79,16 +79,14 @@ body {
     margin: auto;
     width: min(66%, 60em);
 
-    font-size: 1.1rem;
-    margin-top: 3em;
-
-    p,
     h1 {
-        margin: 1em;
+        margin: 0.77em;
+        font-size: 1.6rem;
     }
 
     p {
-        margin-block: 1lh;
+        margin: 0 1em 1lh;
+        font-size: 1.1rem;
     }
 
     img {

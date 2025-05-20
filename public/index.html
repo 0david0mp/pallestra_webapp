@@ -18,17 +18,17 @@
           <h2>XEPS</h2>
         </a></div>
       <input type="checkbox" id="menu-toggle">
-      <label tabindex="0" for="menu-toggle" id="menu-button">=</label>
+      <label tabindex="0" for="menu-toggle" id="menu-button">☰</label>
       <nav class="navbar">
         <ul>
           <li id="active"><a href="#">Home</a>
           <li class="dropdown"><a href="#/">Services</a>
             <ul class="dropdown-menu">
-              <li><a href="#">Courses</a></li>
-              <li><a href="#">Plans</a></li>
+              <li><a href="courses.html">Courses</a></li>
+              <li><a href="plans.html">Plans</a></li>
             </ul>
           </li>
-          <li><a href="#">About us</a></li>
+          <li><a href="about-us.html">About us</a></li>
           <li><a href="member-area.html">Member area</a></li>
         </ul>
       </nav>
@@ -42,7 +42,7 @@
       <section id="content">
 
         <div class="card" id="courses">
-          <img src="./media/dumbell-unsplash.jpg">
+          <img src="./media/dumbell-unsplash-400.jpg">
           <div class="card-content">
             <div>
               <h1>Courses</h1>
@@ -57,7 +57,7 @@
         </div>
 
         <div class="card" id="plans">
-          <img src="./media/dumbell-unsplash.jpg">
+          <img src="./media/dumbell-unsplash-400.jpg">
           <div class="card-content">
             <div>
               <h1>Plans</h1>
@@ -75,7 +75,7 @@
         </div>
 
         <div class="card" id="about-us">
-          <img src="./media/dumbell-unsplash.jpg">
+          <img src="./media/dumbell-unsplash-400.jpg">
           <div class="card-content">
             <div>
               <h1>About us</h1>
@@ -93,7 +93,7 @@
         </div>
 
         <div class="card" id="member-area">
-          <img src="./media/dumbell-unsplash.jpg">
+          <img src="./media/dumbell-unsplash-400.jpg">
           <div class="card-content">
             <div>
               <h1>Member area</h1>
@@ -112,8 +112,8 @@
             </div>
             <div class="button-container">
               <button class="outlined-button" id="member-area-button">see more</button>
-              <button class="tonal-button" id="member-area-login-button">login</button>
-              <button class="error-button" id="member-area-delete-button">delete</button>
+              <button onClick="location.href='login.html'" class="tonal-button"
+                id="member-area-login-button">login</button>
             </div>
           </div>
         </div>

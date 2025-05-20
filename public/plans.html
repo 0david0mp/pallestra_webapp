@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LANDING</title>
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>">
+  <link href="styles/style.css" rel="stylesheet">
+  <script defer src="js/index.js"> </script>
+</head>
+
+<body>
+  <div id="page-container">
+    <header>
+      <div class="logo"><a href="#">
+          <h2>XEPS</h2>
+        </a></div>
+      <input type="checkbox" id="menu-toggle">
+      <label tabindex="0" for="menu-toggle" id="menu-button">☰</label>
+      <nav class="navbar">
+        <ul>
+          <li><a href="index.html">Home</a>
+          <li id="active" class="dropdown"><a href="#/">Services</a>
+            <ul class="dropdown-menu">
+              <li><a href="courses.html">Courses</a></li>
+              <li><a id="active" href="#/">Plans</a></li>
+            </ul>
+          </li>
+          <li><a href="about-us.html">About us</a></li>
+          <li><a href="member-area.html">Member area</a></li>
+        </ul>
+      </nav>
+
+    </header>
+
+    <section id="content-container">
+      <div id="hero">
+        <p>PLANS</p>
+      </div>
+      <section id="content">
+      </section>
+    </section>
+
+    <footer>
+      <div class="footer-content" id="l-footer">
+        <div class="logo">
+          <h1>XEPS</h1>
+        </div>
+        <div id="map">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2976.079580034518!2d-2.469105!3d41.761942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd44d2cfa39dd791%3A0x2602423d8c832ee9!2zR8OhbHZleg!5e0!3m2!1sit!2sit!4v1746719002514!5m2!1sit!2sit"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </iframe>
+        </div>
+      </div>
+      <div class="footer-content" id="r-footer">
+        <address>
+          Dirección:
+          <br>
+          C. Bodas Reales, 7, 42003 Soria, Spagna
+        </address>
+        <form id="contact">
+          <input type="text" id="name" autocomplete="name" required="" placeholder="Nome*">
+          <input type="email" id="email" autocomplete="email" required="" placeholder="Email*">
+          <input type="text" id="reason" value="" placeholder="Reason">
+          <input type="submit" value="Send message >">
+
+          <div id="contact-result">
+          </div>
+        </form>
+      </div>
+    </footer>
+  </div> <!-- #page-container -->
+</body>
+
+</html>
