@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LANDING</title>
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💪</text></svg>">
+  <link href="/styles/style.css" rel="stylesheet">
+  <script defer src="/js/index.js"> </script>
+  <script defer src="js/workout.js"> </script>
+</head>
+
+<body>
+  <div id="page-container">
+    <header>
+      <div class="logo"><a href="/index.html">
+          <h2>XEPS</h2>
+        </a></div>
+      <input type="checkbox" id="menu-toggle">
+      <label tabindex="0" for="menu-toggle" id="menu-button">☰</label>
+      <nav class="navbar">
+        <ul>
+          <li><a href="/index.html">Home</a>
+          <li class="dropdown"><a href="#/">Services</a>
+            <ul class="dropdown-menu">
+              <li><a href="/courses.html">Courses</a></li>
+              <li><a href="/plans.html">Plans</a></li>
+            </ul>
+          </li>
+          <li><a href="/about-us.html">About us</a></li>
+          <li id="active"><a href="#">Member area</a></li>
+        </ul>
+      </nav>
+
+    </header>
+
+    <div id="new-exercise-popup-container" class="popup-container">
+      <div id="new-exercise-popup" class="popup">
+        <h2>New exercise</h2>
+        <form>
+          <select id="new-exercise" required="">
+            <option value="" disabled selected>Exercise</option>
+          </select>
+          <span>
+            <label for="new-exercise-reps">Repetitions: </label>
+            <input type="number" value="1" min="1" max="50" id="new-exercise-reps" required="">
+          </span>
+          <div class="button-container">
+            <input type="reset" value="Reset">
+            <input type="submit" id="submit-exercise" value="Add exercise">
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <section id="content-container" class="no-footer">
+      <div id="hero">
+        <h1></h1>
+      </div>
+      <section id="content">
+        <button id="new-exercise-button" class="tonal-button">+</button>
+        <button id="back-button" class="outlined-button">◀</button>
+        <h1>Details</h1>
+        <p id="sets">Sets of repetitions: </p>
+        <p id="description"></p>
+        <p class="difficulty"></p>
+      </section> <!-- #content -->
+    </section> <!-- #content-container .no-footer -->
+  </div> <!-- #page-container -->
+</body>
+
+</html>

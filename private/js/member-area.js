@@ -30,7 +30,8 @@ function newCard(cardOptions) {
                     : action.buttonClass;
 
             if (buttonClass === 'error-button') {
-                button.addEventListener('click', () => {
+                button.addEventListener('click', (event) => {
+                    event.stopPropagation();
                     deleteWorkoutClickListener(cardOptions.id);
                 });
             }
@@ -46,6 +47,7 @@ function newCard(cardOptions) {
 
     card.classList.add("card");
     card.id = `workout-${cardOptions.id}`;
+    card.addEventListener('click', () => { document.location.href = '/private/workout.html?id=' + cardOptions.id; });
 
     card.appendChild(image);
     image.src = cardOptions.imageRoute;
@@ -113,7 +115,7 @@ async function newWorkoutSubmitListener() {
     newCard({
         id: rows.id,
         title: rows.name,
-        imageRoute: "media/barbell.svg",
+        imageRoute: "/media/barbell.svg",
         difficulty: rows.difficulty_level,
         cardContent: rows.description,
         actions: [{
@@ -133,8 +135,6 @@ async function newWorkoutSubmitListener() {
 }
 
 async function deleteWorkoutClickListener(id) {
-    console.log("deleting workout " + id + "...")
-
     let result = await fetch("/api/v1/workouts", {
         method: "DELETE",
         headers: {
@@ -179,7 +179,7 @@ window.addEventListener('load', async () => {
             newCard({
                 id: element.id,
                 title: element.name,
-                imageRoute: "media/barbell.svg",
+                imageRoute: "/media/barbell.svg",
                 difficulty: element.difficulty_level,
                 cardContent: element.description,
                 actions: [{
@@ -205,20 +205,10 @@ window.addEventListener('load', async () => {
             event.preventDefault();
         });
 
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', async () => {
-                let workoutId = card.id.split("-")[1];
-                let result = await fetch("/api/v1/workout/" + workoutId);
 
-                if (!result.ok) {
-                    console.log('Error on fetching workout ' + workoutId);
-                    return
-                }
-
-                let body = await result.json();
-
-                console.log(body)
-            });
+        document.getElementById("logout-button").addEventListener('click', async () => {
+            await fetch('/api/v1/logout');
+            document.location.href = '/index.html'
         });
     }
 })

@@ -7,29 +7,29 @@
   <title>LANDING</title>
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>">
-  <link href="styles/style.css" rel="stylesheet">
-  <script defer src="js/index.js"> </script>
-  <script defer src="js/member-area.js"> </script>
+  <link href="/styles/style.css" rel="stylesheet">
+  <script defer src="/js/index.js"> </script>
+  <script type="module" src="js/member-area.js"> </script>
 </head>
 
 <body>
   <div id="page-container">
     <header>
-      <div class="logo"><a href="index.html">
+      <div class="logo"><a href="/index.html">
           <h2>XEPS</h2>
         </a></div>
       <input type="checkbox" id="menu-toggle">
       <label tabindex="0" for="menu-toggle" id="menu-button">☰</label>
       <nav class="navbar">
         <ul>
-          <li><a href="index.html">Home</a>
+          <li><a href="/index.html">Home</a>
           <li class="dropdown"><a href="#/">Services</a>
             <ul class="dropdown-menu">
-              <li><a href="courses.html">Courses</a></li>
-              <li><a href="plans.html">Plans</a></li>
+              <li><a href="/courses.html">Courses</a></li>
+              <li><a href="/plans.html">Plans</a></li>
             </ul>
           </li>
-          <li><a href="about-us.html">About us</a></li>
+          <li><a href="/about-us.html">About us</a></li>
           <li id="active"><a href="#">Member area</a></li>
         </ul>
       </nav>
@@ -59,10 +59,11 @@
 
     <section id="content-container" class="no-footer">
       <div id="hero">
-        <p>WORKOUTS</p>
+        <h1>WORKOUTS</h1>
       </div>
       <section id="content">
-        <button type="button" id="new-workout-button" class="tonal-button">+</button>
+        <button id="new-workout-button" class="tonal-button">+</button>
+        <button id="logout-button"      class="outlined-button">logout</button>
       </section> <!-- #content -->
     </section> <!-- #content-container .no-footer -->
   </div> <!-- #page-container -->

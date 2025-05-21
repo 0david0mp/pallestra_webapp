@@ -7,7 +7,7 @@ function menuButtonEventHandler(event) {
     if (!menuToggle.checked) {
         document.querySelector("#menu-button").textContent = "x";
     } else if (menuToggle.checked){
-        document.querySelector("#menu-button").textContent = "=";
+        document.querySelector("#menu-button").textContent = "☰";
     }
 }
 

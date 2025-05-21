@@ -26,7 +26,7 @@
           </ul>
         </li>
         <li><a href="#">About us</a></li>
-        <li><a href="member-area.html">Member area</a></li>
+        <li><a href="/private/member-area.html">Member area</a></li>
       </ul>
     </nav>
   </header>
@@ -34,13 +34,14 @@
   <div class="popup-container open">
     <div class="popup">
       <h2>Login</h2>
+      <p id="login-result"></p>
       <form id="login-form">
         <input id="cf-input" min-length="16" maxlength="16" type="text" value="" placeholder="CF">
         <input id="pass-input" type="password" value="" placeholder="password">
         <div class="button-container">
           <!-- TODO: change location of js -->
           <button
-            onclick="location.href=(document.referrer) ? document.referrer : '/' ;"
+            type="button"
             class="outlined-button"
             id="cancel-button">Cancel</button>
           <input type="submit" value="Login" id="login-button">
