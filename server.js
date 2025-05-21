@@ -206,6 +206,17 @@ app.delete('/api/v1/workout/:workoutid', async (req, res) => {
     }
 });
 
+app.get('/api/v1/exercises', async (req, res) => {
+    let memberCf = req.cookies.user;
+    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + memberCf);
+
+    let result = await pool.query(
+        `SELECT *
+        FROM exercise;`
+    );
+
+    res.status(200).send(JSON.stringify(result.rows));
+});
 // middleware for not found files
 
 app.use((req, res, next) => {

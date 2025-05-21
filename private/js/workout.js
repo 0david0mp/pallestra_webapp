@@ -11,6 +11,30 @@ function openPopup() {
     popupContainer.classList.add("open");
 }
 
+async function getExercises() {
+    let select = document.getElementById('new-exercise');
+
+    try {
+        let result = await fetch('/api/v1/exercises');
+        if (!result.ok) {
+            console.log('error fetching exercises')
+        }
+
+        let body = await result.json();
+
+        body.forEach(exercise => {
+            let exerciseOption = document.createElement('option');
+            exerciseOption.value = exercise.id;
+            exerciseOption.textContent = exercise.name;
+
+            select.appendChild(exerciseOption);
+        });
+
+    } catch (e) {
+        console.log(e)
+    }
+}
+
 function newCard(cardOptions) {
     const parent = document.getElementById("content");
     let card = document.createElement("div");
@@ -156,6 +180,8 @@ async function deleteExerciseClickListener(order) {
     document.getElementById(`exercise-${order}`).remove();
 }
 
+// -------------------- main entry point
+
 window.addEventListener('click', (event) => {
     if (event.target.id === 'new-exercise-popup-container') {
         closePopup();
@@ -168,6 +194,8 @@ window.addEventListener('load', async () => {
     let description = document.querySelector("p#description");
     let sets = document.querySelector("p#sets");
     let difficulty = document.querySelector("p.difficulty");
+
+    getExercises();
 
     newExerciseButton.addEventListener('click', () => {
         openPopup();

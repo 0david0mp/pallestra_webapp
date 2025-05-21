@@ -43,8 +43,10 @@
           <select id="new-exercise" required="">
             <option value="" disabled selected>Exercise</option>
           </select>
-          <input type="number" value="1" min="1" max="50" id="new-exercise-reps" required="">
-          <input type="number" value="1" min="1" id="new-exercise-order" required="">
+          <span>
+            <label for="new-exercise-reps">Repetitions: </label>
+            <input type="number" value="1" min="1" max="50" id="new-exercise-reps" required="">
+          </span>
           <div class="button-container">
             <input type="reset" value="Reset">
             <input type="submit" id="submit-exercise" value="Add exercise">
