@@ -174,11 +174,17 @@ app.get('/api/v1/workout/:workoutid', async (req, res) => {
 });
 
 app.post('/api/v1/workout/:workoutid', async (req, res) => {
-    let memberCf = req.cookies.user;
-
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
 
-    res.status(500).send('WIP');
+    let result = await pool.query(
+        `INSERT INTO "workout_details" (exercise, workout_plan, reps) VALUES
+        ($1, $2, $3)
+        RETURNING *;
+        `,
+        [req.body.exercise, req.params.workoutid, req.body.reps]
+    );
+
+    res.status(200).send(result.rows);
 });
 
 app.delete('/api/v1/workout/:workoutid', async (req, res) => {

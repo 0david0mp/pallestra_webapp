@@ -102,28 +102,19 @@ function newCard(cardOptions) {
     parent.insertBefore(card, document.getElementById("new-workout-button"));
 }
 
-async function newWorkoutSubmitListener() {
-    let name = document.getElementById("new-workout-name");
-    let difficulty = document.getElementById("new-workout-difficulty");
-    let frequency = document.getElementById("new-workout-frequency");
-    let description = document.getElementById("new-workout-description");
-    let sets = document.getElementById("new-workout-sets");
+async function newExerciseSubmitListener() {
+    let exercise = document.getElementById("new-exercise");
+    let reps = document.getElementById("new-exercise-reps");
 
-    let nameValue = name.value;
-    let difficultyValue = difficulty.value;
-    let frequencyValue = frequency.value;
-    let descriptionValue = description.value;
-    let setsValue = sets.value;
+    let exerciseValue = exercise.value;
+    let repsValue = reps.value;
 
     let data = {
-        name: nameValue,
-        description: descriptionValue,
-        frequency: frequencyValue,
-        difficulty: difficultyValue.toLowerCase(),
-        sets: setsValue
+        exercise: exerciseValue,
+        reps: repsValue
     }
 
-    let result = await fetch("/api/v1/workouts", {
+    let result = await fetch("/api/v1/workout/" + workoutId, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -132,7 +123,7 @@ async function newWorkoutSubmitListener() {
     });
 
     if (!result.ok) {
-        console.log("Error posting new workout")
+        console.log("Error posting new exercise")
     }
 
     let body = await result.json();
@@ -242,7 +233,7 @@ window.addEventListener('load', async () => {
         throw err;
     } finally {
         document.getElementById("submit-exercise").addEventListener('click', (event) => {
-            newWorkoutSubmitListener();
+            newExerciseSubmitListener();
             event.preventDefault();
         });
 
