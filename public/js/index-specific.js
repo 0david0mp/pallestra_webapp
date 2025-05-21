@@ -4,7 +4,13 @@ window.addEventListener('load', function() {
     cards.forEach(card => {
         console.log(card);
         card.addEventListener('click', () => {
-            location.href = '/' + card.id + '.html';
+            let route = '/'
+            if (card.id === 'member-area') {
+                route += 'private/';
+            }
+
+            location.href = route + card.id + '.html';
         });
+
     });
 });

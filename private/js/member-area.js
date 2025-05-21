@@ -30,7 +30,8 @@ function newCard(cardOptions) {
                     : action.buttonClass;
 
             if (buttonClass === 'error-button') {
-                button.addEventListener('click', () => {
+                button.addEventListener('click', (event) => {
+                    event.stopPropagation();
                     deleteWorkoutClickListener(cardOptions.id);
                 });
             }
@@ -113,7 +114,7 @@ async function newWorkoutSubmitListener() {
     newCard({
         id: rows.id,
         title: rows.name,
-        imageRoute: "media/barbell.svg",
+        imageRoute: "/media/barbell.svg",
         difficulty: rows.difficulty_level,
         cardContent: rows.description,
         actions: [{
@@ -179,7 +180,7 @@ window.addEventListener('load', async () => {
             newCard({
                 id: element.id,
                 title: element.name,
-                imageRoute: "media/barbell.svg",
+                imageRoute: "/media/barbell.svg",
                 difficulty: element.difficulty_level,
                 cardContent: element.description,
                 actions: [{
@@ -205,11 +206,12 @@ window.addEventListener('load', async () => {
             event.preventDefault();
         });
 
-<<<<<<< HEAD
+
         document.getElementById("logout-button").addEventListener('click', async () => {
             await fetch('/api/v1/logout');
             document.location.href = '/index.html'
-=======
+        });
+
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('click', async () => {
                 let workoutId = card.id.split("-")[1];
@@ -224,7 +226,7 @@ window.addEventListener('load', async () => {
 
                 console.log(body)
             });
->>>>>>> master
+
         });
     }
 })

@@ -153,12 +153,8 @@ body {
         h2 {
             font-size: 1.6rem;
         }
-    }
-
-    /* .card-content end */
-}
-
-/* #content end*/
+    } /* .card-content end */
+} /* #content end*/
 
 .button-container {
     display: flex;
@@ -255,6 +251,9 @@ input[type='reset']:hover {
     border-radius: var(--border-radius);
     min-width: 33%;
     max-width: 95%;
+    p {
+        margin: 0.5lh 1em;
+    }
 }
 
 .popup-container .popup form {
@@ -288,6 +287,11 @@ input[type='reset']:hover {
     .button-container {
         padding: 0;
     }
+
+}
+
+.error {
+    color: var(--md-sys-color-error);
 }
 
 #hero {

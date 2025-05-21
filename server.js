@@ -1,6 +1,7 @@
 const express = require('express');
 const { Pool } = require('pg');
 const cookieParser = require('cookie-parser');
+const authMiddleware = require('./authMiddleware');
 
 const app = express();
 const port = 8000;
@@ -16,6 +17,7 @@ const memberCf = "RSSMRC80A01F205X";
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static("public"));
+app.use('/private', authMiddleware, express.static("private"));
 
 // -------------------- api
 app.post('/api/v1/login', async (req, res) => {
@@ -149,20 +151,27 @@ app.get('/api/v1/workout/:workoutid', async (req, res) => {
 
 
 app.delete('/api/v1/workouts', async (req, res) => {
+    let memberCf = req.cookies.user
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
     let result = await pool.query(
-        "DELETE " +
-        "FROM workout_plan " +
-        "    USING followed_by " +
-        "WHERE followed_by.workout_plan = workout_plan.id " +
-        "    AND workout_plan.id = " + `${req.body.id}` + " " +
-        "    AND followed_by.member = '" + `${memberCf}` + "';"
+        `DELETE
+         FROM workout_plan
+             USING followed_by
+         WHERE followed_by.workout_plan = workout_plan.id
+             AND workout_plan.id = $1
+             AND followed_by.member = $2
+         RETURNING *;`, [req.body.id, memberCf]
     );
-    console.log(result.rows)
-    res.status(200).send(JSON.stringify(result.rows));
+
+    if (rowCount === 1) {
+        res.status(200).send(JSON.stringify(result.rows));
+    } else {
+        res.status(404).end();
+    }
 });
 
 // middleware for not found files
+
 app.use((req, res, next) => {
     res.on('finish', () => {
         let d = new Date();
