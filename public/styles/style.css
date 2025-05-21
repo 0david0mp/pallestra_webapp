@@ -99,7 +99,6 @@ body {
         object-fit: cover;
         border-radius: var(--border-radius);
         height: auto;
-        background-color: var(--md-sys-color-surface-bright);
     }
 
     .card {
@@ -111,6 +110,13 @@ body {
         background-color: var(--md-sys-color-surface-container-high);
         border-radius: var(--border-radius);
     }
+
+    .card.outlined,
+    .card.outlined:hover {
+        background-color: transparent;
+        border: 2px solid var(--md-sys-color-outline-variant);
+    }
+
 
     .card:hover {
         transform: translateY(-5px);
@@ -129,32 +135,36 @@ body {
             max-width: 60ch;
         }
 
-        .difficulty {
-            display: inline;
-            padding: 0.6em;
-            border-radius: 2rem;
-        }
-
-        .difficulty-easy {
-            background-color: var(--md-sys-color-on-tertiary-container);
-            color: var(--md-sys-color-tertiary-container);
-        }
-
-        .difficulty-medium {
-            background-color: var(--md-sys-color-on-secondary-container);
-            color: var(--md-sys-color-secondary-container);
-        }
-
-        .difficulty-hard {
-            background-color: var(--md-sys-color-on-error-container);
-            color: var(--md-sys-color-error-container);
-        }
-
         h2 {
             font-size: 1.6rem;
         }
-    } /* .card-content end */
-} /* #content end*/
+    }
+
+    /* .card-content end */
+}
+
+/* #content end*/
+
+.difficulty {
+    display: inline;
+    padding: 0.6em;
+    border-radius: 2rem;
+}
+
+.difficulty-easy {
+    background-color: var(--md-sys-color-on-tertiary-container);
+    color: var(--md-sys-color-tertiary-container);
+}
+
+.difficulty-medium {
+    background-color: var(--md-sys-color-on-secondary-container);
+    color: var(--md-sys-color-secondary-container);
+}
+
+.difficulty-hard {
+    background-color: var(--md-sys-color-on-error-container);
+    color: var(--md-sys-color-error-container);
+}
 
 .button-container {
     display: flex;
@@ -251,6 +261,7 @@ input[type='reset']:hover {
     border-radius: var(--border-radius);
     min-width: 33%;
     max-width: 95%;
+
     p {
         margin: 0.5lh 1em;
     }
@@ -295,19 +306,24 @@ input[type='reset']:hover {
 }
 
 #hero {
-    font-size: clamp(1.8rem, calc(8vw + 1rem), 8rem);
-    font-weight: 1000;
-    display: flex;
-    align-items: center;
-
-    height: 80vh;
-    text-align: center;
-    background-color: var(--md-sys-color-on-primary);
-    color: var(--md-sys-color-primary);
-
     * {
         margin: auto;
     }
+
+    h1 {
+        font-size: clamp(1.8rem, calc(8vw + 1rem), 8rem);
+        font-weight: 1000;
+        vertical-align: middle;
+    }
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    height: 80dvh;
+    text-align: center;
+    background-color: var(--md-sys-color-on-primary);
+    color: var(--md-sys-color-primary);
 }
 
 

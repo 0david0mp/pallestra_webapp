@@ -1,5 +1,7 @@
+const url = new URL(window.location.href)
+const workoutId = parseInt(url.search.split('=')[1]);
 
-let popupContainer = document.getElementById("new-workout-popup-container");
+let popupContainer = document.getElementById("new-exercise-popup-container");
 
 function closePopup() {
     popupContainer.classList.remove("open");
@@ -32,7 +34,7 @@ function newCard(cardOptions) {
             if (buttonClass === 'error-button') {
                 button.addEventListener('click', (event) => {
                     event.stopPropagation();
-                    deleteWorkoutClickListener(cardOptions.id);
+                    deleteExerciseClickListener(cardOptions.order);
                 });
             }
 
@@ -46,8 +48,8 @@ function newCard(cardOptions) {
     }
 
     card.classList.add("card");
-    card.id = `workout-${cardOptions.id}`;
-    card.addEventListener('click', () => { document.location.href = '/private/workout.html?id=' + cardOptions.id; });
+    card.classList.add('outlined');
+    card.id = 'exercise-' + cardOptions.order;
 
     card.appendChild(image);
     image.src = cardOptions.imageRoute;
@@ -109,18 +111,19 @@ async function newWorkoutSubmitListener() {
         console.log("Error posting new workout")
     }
 
-    let rows = await result.json();
+    let body = await result.json();
 
-    console.log(rows);
+    console.log(body);
     newCard({
-        id: rows.id,
-        title: rows.name,
+        exercise: body.rows.exercise,
+        order: body.rows.order,
+        title: body.rows.name,
         imageRoute: "/media/barbell.svg",
-        difficulty: rows.difficulty_level,
-        cardContent: rows.description,
+        difficulty: body.rows.reps,
+        cardContent: body.rows.description,
         actions: [{
             buttonClass: "tonal-button",
-            buttonText: "see workout"
+            buttonText: "see exercise"
         },
         {
             buttonClass: "error-button",
@@ -134,81 +137,89 @@ async function newWorkoutSubmitListener() {
     closePopup();
 }
 
-async function deleteWorkoutClickListener(id) {
-    let result = await fetch("/api/v1/workouts", {
+async function deleteExerciseClickListener(order) {
+    console.log("deleting exercise " + order + "...")
+
+    let result = await fetch("/api/v1/workout/" + workoutId, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ id: id })
+        body: JSON.stringify({ order: order })
     });
 
     if (!result.ok) {
-        console.log("Error delete workout " + id)
+        console.log("Error delete exercise " + order)
         return
     }
 
-    document.getElementById(`workout-${id}`).remove();
+    document.getElementById(`exercise-${order}`).remove();
 }
 
 window.addEventListener('click', (event) => {
-    if (event.target.id === 'new-workout-popup-container') {
+    if (event.target.id === 'new-exercise-popup-container') {
         closePopup();
     }
 });
 
 window.addEventListener('load', async () => {
-    let newWorkoutButton = document.getElementById("new-workout-button");
+    let newExerciseButton = document.getElementById("new-exercise-button");
+    let heroTitle = document.querySelector("#hero h1");
+    let description = document.querySelector("p#description");
+    let sets = document.querySelector("p#sets");
+    let difficulty = document.querySelector("p.difficulty");
 
-    newWorkoutButton.addEventListener('click', () => {
+    newExerciseButton.addEventListener('click', () => {
         openPopup();
     });
 
     try {
-        let result = await fetch("/api/v1/workouts");
+        let result = await fetch("/api/v1/workout/" + workoutId);
 
         if (!result.ok) {
-            console.error("Error fetching workouts")
+            console.error("Error fetching selected workout (" + workoutId + ")");
         }
 
-        let rows = await result.json();
+        let body = await result.json();
 
-        console.log(rows)
+        console.log(body);
 
-        rows.forEach(element => {
+        heroTitle.textContent = body.details.name;
+        sets.textContent += body.details.sets;
+        description.textContent = body.details.description;
+        difficulty.textContent = body.details.difficulty;
+        difficulty.classList.add('difficulty-' + body.details.difficulty);
+
+        body.rows.forEach(element => {
             newCard({
-                id: element.id,
+                exercise: element.exercise,
+                order: element.order,
                 title: element.name,
                 imageRoute: "/media/barbell.svg",
-                difficulty: element.difficulty_level,
+                difficulty: element.reps,
                 cardContent: element.description,
                 actions: [{
                     buttonClass: "tonal-button",
-                    buttonText: "see workout"
-                },
-                {
-                    buttonClass: "outlined-button",
-                    buttonText: ""
+                    buttonText: "see exercise"
                 },
                 {
                     buttonClass: "error-button",
                     buttonText: "delete"
                 }]
             });
+
         });
     } catch (err) {
         console.log("error requesting workouts")
         throw err;
     } finally {
-        document.getElementById("submit-workout").addEventListener('click', (event) => {
+        document.getElementById("submit-exercise").addEventListener('click', (event) => {
             newWorkoutSubmitListener();
             event.preventDefault();
         });
 
-
-        document.getElementById("logout-button").addEventListener('click', async () => {
-            await fetch('/api/v1/logout');
-            document.location.href = '/index.html'
+        document.getElementById("back-button").addEventListener('click', async () => {
+            document.location.href = '/private/member-area.html'
         });
     }
 })

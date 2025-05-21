@@ -11,8 +11,6 @@ const pool = new Pool({
     database: 'palestra'
 });
 
-const memberCf = "RSSMRC80A01F205X";
-
 // -------------------- middleware
 app.use(express.json());
 app.use(cookieParser());
@@ -20,12 +18,14 @@ app.use(express.static("public"));
 app.use('/private', authMiddleware, express.static("private"));
 
 // -------------------- api
+// ---------- login
 app.post('/api/v1/login', async (req, res) => {
     let result = await pool.query(
-        "SELECT " +
-        "    member.cf " +
-        "FROM member " +
-        "WHERE member.cf = '" + `${req.body.cf}` + "'; "
+        `SELECT
+            member.cf
+        FROM member
+        WHERE member.cf = $1;
+        `, [req.body.cf]
     );
 
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + req.body.cf + "\n\t" + JSON.stringify(result.rows));
@@ -46,19 +46,21 @@ app.get('/api/v1/logout', async (req, res) => {
     res.clearCookie('user').send();
 });
 
+// ---------- workouts
 app.get('/api/v1/workouts', async (req, res) => {
     let memberCf = req.cookies.user;
 
     let result = await pool.query(
-        "SELECT " +
-        "    workout_plan.id, " +
-        "    workout_plan.name, " +
-        "    workout_plan.difficulty_level, " +
-        "    workout_plan.description " +
-        "FROM workout_plan " +
-        "    JOIN followed_by ON workout_plan.id = followed_by.workout_plan " +
-        "    JOIN member ON followed_by.member = member.cf " +
-        "WHERE member.cf = '" + `${memberCf}` + "'; "
+        `SELECT
+            workout_plan.id,
+            workout_plan.name,
+            workout_plan.difficulty_level,
+            workout_plan.description
+        FROM workout_plan
+            JOIN followed_by ON workout_plan.id = followed_by.workout_plan
+            JOIN member ON followed_by.member = member.cf
+        WHERE member.cf = $1;
+        `, [memberCf]
     );
 
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + memberCf);
@@ -70,10 +72,10 @@ app.post('/api/v1/workouts', async (req, res) => {
 
     const client = await pool.connect();
     const workoutQuery =
-        "INSERT INTO \"workout_plan\"(id, name, description, frequency, difficulty_level, sets) VALUES " +
-        "(DEFAULT, $1, $2, $3, $4, $5) RETURNING *;";
-    const followedByQuery = "INSERT INTO \"followed_by\" (workout_plan, member, status) VALUES " +
-        "($1, $2, $3) RETURNING *;";
+        `INSERT INTO "workout_plan"(id, name, description, frequency, difficulty_level, sets) VALUES
+        (DEFAULT, $1, $2, $3, $4, $5) RETURNING *;`;
+    const followedByQuery = `INSERT INTO "followed_by" (workout_plan, member, status) VALUES 
+        ($1, $2, 'ongoing') RETURNING *;`;
 
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
     try {
@@ -88,7 +90,7 @@ app.post('/api/v1/workouts', async (req, res) => {
 
         let resultFollowedBy = await client.query(
             followedByQuery,
-            [workoutId, memberCf, 'ongoing']
+            [workoutId, memberCf]
         );
         console.log(resultFollowedBy.rows);
         await client.query("COMMIT");
@@ -100,55 +102,6 @@ app.post('/api/v1/workouts', async (req, res) => {
         client.release();
     }
 });
-
-app.get('/api/v1/workout/:workoutid', async (req, res) => {
-    let workoutid = req.params.workoutid
-    let memberCf = req.cookies.user
-
-    let result = await pool.query(
-        "SELECT " +
-        "    workout_plan.id " +
-        "FROM workout_plan " +
-        "    JOIN followed_by ON followed_by.workout_plan = workout_plan.id " +
-        "    JOIN member ON followed_by.member = member.cf " +
-        "WHERE workout_plan.id = $1" +
-        "    AND member.cf = $2;",
-        [parseInt(workoutid), memberCf]
-    );
-
-    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + memberCf);
-
-    if (result.rowCount === 0) {
-        console.log("FORBIDDEN");
-        res.status(403).end();
-        return;
-    }
-
-    result = await pool.query(
-        "SELECT " +
-        "    workout_plan.id, " +
-        "    workout_plan.name AS name, " +
-        "    workout_plan.difficulty_level, " +
-        "    workout_plan.sets, " +
-        "    exercise.name AS exersice, " +
-        "    workout_details.reps, " +
-        "    exercise.description, " +
-        "    equipment.name AS equipment " +
-        "FROM workout_plan " +
-        "    JOIN workout_details ON workout_details.workout_plan = workout_plan.id " +
-        "    JOIN exercise ON workout_details.exercise = exercise.id " +
-        "    JOIN equipment ON exercise.equipment = equipment.id " +
-        "    JOIN followed_by ON followed_by.workout_plan = workout_plan.id " +
-        "    JOIN member ON followed_by.member = member.cf " +
-        "WHERE workout_plan.id = $1 " +
-        "    AND member.cf = $2 " +
-        "ORDER BY workout_details.exercise_order;",
-        [workoutid, memberCf]
-    );
-
-    res.status(200).send(JSON.stringify(result.rows));
-});
-
 
 app.delete('/api/v1/workouts', async (req, res) => {
     let memberCf = req.cookies.user
@@ -163,10 +116,93 @@ app.delete('/api/v1/workouts', async (req, res) => {
          RETURNING *;`, [req.body.id, memberCf]
     );
 
-    if (rowCount === 1) {
+    if (result.rowCount === 1) {
         res.status(200).send(JSON.stringify(result.rows));
     } else {
         res.status(404).end();
+    }
+});
+
+// ---------- exercises
+app.get('/api/v1/workout/:workoutid', async (req, res) => {
+    let workoutId = req.params.workoutid
+    let memberCf = req.cookies.user
+
+    let result = await pool.query(
+        `SELECT 
+            workout_plan.name,
+            workout_plan.difficulty_level AS difficulty,
+            workout_plan.sets,
+            workout_plan.description
+        FROM workout_plan
+            JOIN followed_by ON followed_by.workout_plan = workout_plan.id
+            JOIN member ON followed_by.member = member.cf
+        WHERE workout_plan.id = $1
+            AND member.cf = $2;
+        `,
+        [parseInt(workoutId), memberCf]
+    );
+
+    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + memberCf);
+
+    if (result.rowCount === 0) {
+        console.log("FORBIDDEN");
+        res.status(403).end();
+        return;
+    }
+
+    let workoutDetails = result.rows[0];
+
+    result = await pool.query(
+        `SELECT
+            exercise.id AS id,
+            workout_details.exercise_order AS order,
+            exercise.name AS name,
+            workout_details.reps,
+            equipment.name AS equipment,
+            exercise.description
+        FROM workout_plan
+            JOIN workout_details ON workout_details.workout_plan = workout_plan.id
+            JOIN exercise ON workout_details.exercise = exercise.id
+            JOIN equipment ON exercise.equipment = equipment.id
+        WHERE workout_plan.id = $1
+        ORDER BY workout_details.exercise_order;`,
+        [workoutId]
+    );
+
+    res.status(200).send(JSON.stringify({ details: workoutDetails, rows: result.rows }));
+});
+
+app.post('/api/v1/workout/:workoutid', async (req, res) => {
+    let memberCf = req.cookies.user;
+
+    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
+
+    res.status(500).send('WIP');
+});
+
+app.delete('/api/v1/workout/:workoutid', async (req, res) => {
+    let memberCf = req.cookies.user;
+
+    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
+
+    let result = await pool.query(`
+        DELETE
+        FROM workout_details
+            USING workout_plan, followed_by
+        WHERE
+            workout_details.workout_plan = workout_plan.id
+            AND followed_by.workout_plan = workout_plan.id
+            AND workout_plan.id = $1
+            AND followed_by.member = $2
+            AND workout_details.exercise_order = $3
+        RETURNING *;`,
+        [req.params.workoutid, memberCf, req.body.order]);
+
+    if (result.rowCount === 0) {
+        res.status(403).end();
+    } else {
+        res.status(200).send(result.rows);
     }
 });
 
@@ -176,9 +212,9 @@ app.use((req, res, next) => {
     res.on('finish', () => {
         let d = new Date();
         console
-            .log(`[${d.getDate()}/${d.getMonth()}/${d.getYear()} ` +
-                `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}]:` +
-                `${req.ip} : error 404 on : ${req.url}`)
+            .log(`[${ d.getDate() } / ${ d.getMonth() } / ${ d.getYear() } ` +
+                `${ d.getHours() }: ${ d.getMinutes() }: ${ d.getSeconds() }]: ` +
+                `${ req.ip } : error 404 on : ${ req.url }`)
     });
     next();
 });
