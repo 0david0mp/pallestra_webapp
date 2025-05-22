@@ -111,10 +111,17 @@ body {
         border-radius: var(--border-radius);
     }
 
+    .card.deleting {
+        transition: 0.5s;
+        opacity: 0;
+    }
+
     .card.outlined,
     .card.outlined:hover {
+        cursor: initial;
         background-color: transparent;
         border: 2px solid var(--md-sys-color-outline-variant);
+        transform: translateY(0);
     }
 
 

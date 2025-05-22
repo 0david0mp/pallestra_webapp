@@ -55,7 +55,7 @@ function newCard(cardOptions) {
                     ? 'outlined-button'
                     : action.buttonClass;
 
-            if (buttonClass === 'error-button') {
+            if (action.buttonText === 'delete') {
                 button.addEventListener('click', (event) => {
                     event.stopPropagation();
                     deleteExerciseClickListener(cardOptions.order);
@@ -130,23 +130,19 @@ async function newExerciseSubmitListener() {
 
     console.log(body);
     newCard({
-        exercise: body.rows.exercise,
-        order: body.rows.order,
-        title: body.rows.name,
+        exercise: body.exercise,
+        order: body.exercise_order,
+        title: body.name,
         imageRoute: "/media/barbell.svg",
-        difficulty: body.rows.reps,
-        cardContent: body.rows.description,
-        actions: [{
-            buttonClass: "tonal-button",
-            buttonText: "see exercise"
-        },
-        {
-            buttonClass: "error-button",
-            buttonText: "delete"
-        }]
+        difficulty: body.reps,
+        cardContent: body.description,
+        actions: [
+            {
+                buttonText: "delete"
+            }]
     });
 
-    document.querySelector("#new-workout-popup form").reset();
+    document.querySelector("#new-exercise-popup form").reset();
 
     // close popup
     closePopup();
@@ -154,6 +150,7 @@ async function newExerciseSubmitListener() {
 
 async function deleteExerciseClickListener(order) {
     console.log("deleting exercise " + order + "...")
+    let card = document.getElementById(`exercise-${order}`);
 
     let result = await fetch("/api/v1/workout/" + workoutId, {
         method: "DELETE",
@@ -168,7 +165,8 @@ async function deleteExerciseClickListener(order) {
         return
     }
 
-    document.getElementById(`exercise-${order}`).remove();
+    card.classList.add('deleting');
+    setTimeout(() => card.remove(), 500);
 }
 
 // -------------------- main entry point
@@ -204,6 +202,7 @@ window.addEventListener('load', async () => {
         console.log(body);
 
         heroTitle.textContent = body.details.name;
+        document.title = body.details.name;
         sets.textContent += body.details.sets;
         description.textContent = body.details.description;
         difficulty.textContent = body.details.difficulty;
@@ -217,14 +216,10 @@ window.addEventListener('load', async () => {
                 imageRoute: "/media/barbell.svg",
                 difficulty: element.reps,
                 cardContent: element.description,
-                actions: [{
-                    buttonClass: "tonal-button",
-                    buttonText: "see exercise"
-                },
-                {
-                    buttonClass: "error-button",
-                    buttonText: "delete"
-                }]
+                actions: [
+                    {
+                        buttonText: "delete"
+                    }]
             });
 
         });

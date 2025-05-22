@@ -135,6 +135,7 @@ async function newWorkoutSubmitListener() {
 }
 
 async function deleteWorkoutClickListener(id) {
+    let card = document.getElementById(`workout-${id}`);
     let result = await fetch("/api/v1/workouts", {
         method: "DELETE",
         headers: {
@@ -148,7 +149,8 @@ async function deleteWorkoutClickListener(id) {
         return
     }
 
-    document.getElementById(`workout-${id}`).remove();
+    card.classList.add('deleting');
+    setTimeout(() => card.remove(), 500);
 }
 
 window.addEventListener('click', (event) => {

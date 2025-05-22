@@ -1,240 +1,29 @@
 const express = require('express');
-const { Pool } = require('pg');
-const cookieParser = require('cookie-parser');
 const authMiddleware = require('./authMiddleware');
+const apiRoutes = require('./routes/api');
 
 const app = express();
 const port = 8000;
 
-const pool = new Pool({
-    user: 'postgres',
-    database: 'palestra'
-});
-
 // -------------------- middleware
 app.use(express.json());
-app.use(cookieParser());
+app.use(apiRoutes);
+
 app.use(express.static("public"));
 app.use('/private', authMiddleware, express.static("private"));
 
-// -------------------- api
-// ---------- login
-app.post('/api/v1/login', async (req, res) => {
-    let result = await pool.query(
-        `SELECT
-            member.cf
-        FROM member
-        WHERE member.cf = $1;
-        `, [req.body.cf]
-    );
-
-    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + req.body.cf + "\n\t" + JSON.stringify(result.rows));
-    res.status((result.rowCount === 0) ? 403 : 200)
-
-    if (res.statusCode === 403) {
-        res.end();
-        return;
-    }
-
-    res.cookie('user', req.body.cf, { httpOnly: true, maxAge: 14 * 24 * 60 * 60 * 1000 });
-    res.send();
-});
-
-app.get('/api/v1/logout', async (req, res) => {
-    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + req.cookies.user);
-
-    res.clearCookie('user').send();
-});
-
-// ---------- workouts
-app.get('/api/v1/workouts', async (req, res) => {
-    let memberCf = req.cookies.user;
-
-    let result = await pool.query(
-        `SELECT
-            workout_plan.id,
-            workout_plan.name,
-            workout_plan.difficulty_level,
-            workout_plan.description
-        FROM workout_plan
-            JOIN followed_by ON workout_plan.id = followed_by.workout_plan
-            JOIN member ON followed_by.member = member.cf
-        WHERE member.cf = $1;
-        `, [memberCf]
-    );
-
-    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + memberCf);
-    res.status(200).send(JSON.stringify(result.rows));
-});
-
-app.post('/api/v1/workouts', async (req, res) => {
-    let memberCf = req.cookies.user
-
-    const client = await pool.connect();
-    const workoutQuery =
-        `INSERT INTO "workout_plan"(id, name, description, frequency, difficulty_level, sets) VALUES
-        (DEFAULT, $1, $2, $3, $4, $5) RETURNING *;`;
-    const followedByQuery = `INSERT INTO "followed_by" (workout_plan, member, status) VALUES 
-        ($1, $2, 'ongoing') RETURNING *;`;
-
-    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
-    try {
-        await client.query("BEGIN");
-        let resultWorkout = await client.query(
-            workoutQuery,
-            [req.body.name, req.body.description, req.body.frequency, req.body.difficulty, req.body.sets]
-        );
-
-        let workoutId = resultWorkout.rows[0].id;
-        console.log(resultWorkout.rows);
-
-        let resultFollowedBy = await client.query(
-            followedByQuery,
-            [workoutId, memberCf]
-        );
-        console.log(resultFollowedBy.rows);
-        await client.query("COMMIT");
-
-        res.status(200).send(resultWorkout.rows[0]);
-    } catch (e) {
-        await client.query('ROLLBACK');
-    } finally {
-        client.release();
-    }
-});
-
-app.delete('/api/v1/workouts', async (req, res) => {
-    let memberCf = req.cookies.user
-    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
-    let result = await pool.query(
-        `DELETE
-         FROM workout_plan
-             USING followed_by
-         WHERE followed_by.workout_plan = workout_plan.id
-             AND workout_plan.id = $1
-             AND followed_by.member = $2
-         RETURNING *;`, [req.body.id, memberCf]
-    );
-
-    if (result.rowCount === 1) {
-        res.status(200).send(JSON.stringify(result.rows));
-    } else {
-        res.status(404).end();
-    }
-});
-
-// ---------- exercises
-app.get('/api/v1/workout/:workoutid', async (req, res) => {
-    let workoutId = req.params.workoutid
-    let memberCf = req.cookies.user
-
-    let result = await pool.query(
-        `SELECT 
-            workout_plan.name,
-            workout_plan.difficulty_level AS difficulty,
-            workout_plan.sets,
-            workout_plan.description
-        FROM workout_plan
-            JOIN followed_by ON followed_by.workout_plan = workout_plan.id
-            JOIN member ON followed_by.member = member.cf
-        WHERE workout_plan.id = $1
-            AND member.cf = $2;
-        `,
-        [parseInt(workoutId), memberCf]
-    );
-
-    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + memberCf);
-
-    if (result.rowCount === 0) {
-        console.log("FORBIDDEN");
-        res.status(403).end();
-        return;
-    }
-
-    let workoutDetails = result.rows[0];
-
-    result = await pool.query(
-        `SELECT
-            exercise.id AS id,
-            workout_details.exercise_order AS order,
-            exercise.name AS name,
-            workout_details.reps,
-            equipment.name AS equipment,
-            exercise.description
-        FROM workout_plan
-            JOIN workout_details ON workout_details.workout_plan = workout_plan.id
-            JOIN exercise ON workout_details.exercise = exercise.id
-            JOIN equipment ON exercise.equipment = equipment.id
-        WHERE workout_plan.id = $1
-        ORDER BY workout_details.exercise_order;`,
-        [workoutId]
-    );
-
-    res.status(200).send(JSON.stringify({ details: workoutDetails, rows: result.rows }));
-});
-
-app.post('/api/v1/workout/:workoutid', async (req, res) => {
-    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
-
-    let result = await pool.query(
-        `INSERT INTO "workout_details" (exercise, workout_plan, reps) VALUES
-        ($1, $2, $3)
-        RETURNING *;
-        `,
-        [req.body.exercise, req.params.workoutid, req.body.reps]
-    );
-
-    res.status(200).send(result.rows);
-});
-
-app.delete('/api/v1/workout/:workoutid', async (req, res) => {
-    let memberCf = req.cookies.user;
-
-    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
-
-    let result = await pool.query(`
-        DELETE
-        FROM workout_details
-            USING workout_plan, followed_by
-        WHERE
-            workout_details.workout_plan = workout_plan.id
-            AND followed_by.workout_plan = workout_plan.id
-            AND workout_plan.id = $1
-            AND followed_by.member = $2
-            AND workout_details.exercise_order = $3
-        RETURNING *;`,
-        [req.params.workoutid, memberCf, req.body.order]);
-
-    if (result.rowCount === 0) {
-        res.status(403).end();
-    } else {
-        res.status(200).send(result.rows);
-    }
-});
-
-app.get('/api/v1/exercises', async (req, res) => {
-    let memberCf = req.cookies.user;
-    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + memberCf);
-
-    let result = await pool.query(
-        `SELECT *
-        FROM exercise;`
-    );
-
-    res.status(200).send(JSON.stringify(result.rows));
-});
 // middleware for not found files
-
 app.use((req, res, next) => {
     res.on('finish', () => {
         let d = new Date();
         console
-            .log(`[${ d.getDate() } / ${ d.getMonth() } / ${ d.getYear() } ` +
-                `${ d.getHours() }: ${ d.getMinutes() }: ${ d.getSeconds() }]: ` +
-                `${ req.ip } : error 404 on : ${ req.url }`)
+            .log(`[${d.getDate()}/${d.getMonth()}/${d.getYear()} ` +
+                `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}]: ` +
+                `${req.ip} : error 404 on : ${req.url}`)
     });
     next();
 });
+
 app.use((req, res) => {
     res.status(404).send('invalid url');
 });
