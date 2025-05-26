@@ -140,7 +140,7 @@ router.get('/api/v1/workout/:workoutid', async (req, res) => {
 
     if (result.rowCount === 0) {
         console.log("FORBIDDEN");
-        res.status(403).end();
+        res.status(403).send(JSON.stringify({ details: { name: 'FORBIDDEN', description: 'you cannot watch this workout' } }));
         return;
     }
 

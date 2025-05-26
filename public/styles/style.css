@@ -60,7 +60,7 @@
 html,
 body {
     font-family: Roboto, Arial, sans-serif;
-    background-color: var(--md-sys-color-surface);
+    background-color: var(--md-sys-color-background);
     color: var(--md-sys-color-on-surface);
     line-height: 1.6;
     height: 100vh;
@@ -111,6 +111,10 @@ body {
         border-radius: var(--border-radius);
     }
 
+    .card#not-found {
+        color: var(--md-sys-color-on-error-container);
+    }
+
     .card.deleting {
         transition: 0.5s;
         opacity: 0;
@@ -119,7 +123,7 @@ body {
     .card.outlined,
     .card.outlined:hover {
         cursor: initial;
-        background-color: transparent;
+        background-color: var(--md-sys-color-surface);
         border: 2px solid var(--md-sys-color-outline-variant);
         transform: translateY(0);
     }
@@ -599,5 +603,10 @@ header .logo {
     #content-container:not(.no-footer) {
         /* footer height */
         padding-bottom: 28rem;
+    }
+
+    .card#not-found {
+        width: 33vw;
+        margin: auto;
     }
 }
