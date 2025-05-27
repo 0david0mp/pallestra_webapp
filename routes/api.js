@@ -1,6 +1,11 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+
+// TODO: secret management
 const { Pool } = require('pg');
+const authMiddleware = require('../authMiddleware');
+const JWT_SECRET = 'mia_chiave_segreta';
 
 const pool = new Pool({
     user: 'postgres',
@@ -29,19 +34,24 @@ router.post('/api/v1/login', async (req, res) => {
         return;
     }
 
-    res.cookie('user', req.body.cf, { httpOnly: true, maxAge: 14 * 24 * 60 * 60 * 1000 });
+    let payload = { user: req.body.cf };
+    let token = jwt.sign(payload, JWT_SECRET, {
+        algorithm: 'HS256', expiresIn: '14d'
+    });
+    res.cookie('token', token, { httpOnly: true, maxAge: 14 * 24 * 3600 * 1000 });
     res.send();
 });
 
-router.get('/api/v1/logout', async (req, res) => {
-    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + req.cookies.user);
+router.get('/api/v1/logout', authMiddleware, async (req, res) => {
+    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + req.payload.user);
 
-    res.clearCookie('user').send();
+    res.clearCookie('token').send();
 });
 
 // ---------- workouts
-router.get('/api/v1/workouts', async (req, res) => {
-    let memberCf = req.cookies.user;
+// list workouts of a user
+router.get('/api/v1/workouts', authMiddleware, async (req, res) => {
+    let memberCf = req.payload.user;
 
     let result = await pool.query(
         `SELECT
@@ -60,8 +70,9 @@ router.get('/api/v1/workouts', async (req, res) => {
     res.status(200).send(JSON.stringify(result.rows));
 });
 
-router.post('/api/v1/workouts', async (req, res) => {
-    let memberCf = req.cookies.user
+// new workout of a user
+router.post('/api/v1/workouts', authMiddleware, async (req, res) => {
+    let memberCf = req.payload.user
 
     const client = await pool.connect();
     const workoutQuery =
@@ -90,14 +101,16 @@ router.post('/api/v1/workouts', async (req, res) => {
 
         res.status(200).send(resultWorkout.rows[0]);
     } catch (e) {
+        console.log('ROLLBACK')
         await client.query('ROLLBACK');
     } finally {
         client.release();
     }
 });
 
-router.delete('/api/v1/workouts', async (req, res) => {
-    let memberCf = req.cookies.user
+// delete workout of a user
+router.delete('/api/v1/workouts', authMiddleware, async (req, res) => {
+    let memberCf = req.payload.user
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
     let result = await pool.query(
         `DELETE
@@ -117,9 +130,10 @@ router.delete('/api/v1/workouts', async (req, res) => {
 });
 
 // ---------- exercises
-router.get('/api/v1/workout/:workoutid', async (req, res) => {
+// list exercises on a workout
+router.get('/api/v1/workout/:workoutid', authMiddleware, async (req, res) => {
     let workoutId = req.params.workoutid
-    let memberCf = req.cookies.user
+    let memberCf = req.payload.user
 
     let result = await pool.query(
         `SELECT 
@@ -157,16 +171,21 @@ router.get('/api/v1/workout/:workoutid', async (req, res) => {
         FROM workout_plan
             JOIN workout_details ON workout_details.workout_plan = workout_plan.id
             JOIN exercise ON workout_details.exercise = exercise.id
-            JOIN equipment ON exercise.equipment = equipment.id
+            LEFT JOIN equipment ON exercise.equipment = equipment.id
         WHERE workout_plan.id = $1
         ORDER BY workout_details.exercise_order;`,
         [workoutId]
     );
 
-    res.status(200).send(JSON.stringify({ details: workoutDetails, rows: result.rows }));
+    const response = JSON.stringify({ details: workoutDetails, rows: result.rows })
+
+    console.log(response)
+    res.status(200).send(response);
 });
 
+// new exercise for a workout
 router.post('/api/v1/workout/:workoutid', async (req, res) => {
+    // TODO: check user
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
 
     let result = await pool.query(
@@ -193,8 +212,9 @@ router.post('/api/v1/workout/:workoutid', async (req, res) => {
     res.status(200).send(data);
 });
 
-router.delete('/api/v1/workout/:workoutid', async (req, res) => {
-    let memberCf = req.cookies.user;
+// delete exercise from workout
+router.delete('/api/v1/workout/:workoutid', authMiddleware, async (req, res) => {
+    let memberCf = req.payload.user;
 
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
 
@@ -218,8 +238,9 @@ router.delete('/api/v1/workout/:workoutid', async (req, res) => {
     }
 });
 
-router.get('/api/v1/exercises', async (req, res) => {
-    let memberCf = req.cookies.user;
+// list all the exercises (for selecting when adding a exercise)
+router.get('/api/v1/exercises', authMiddleware, async (req, res) => {
+    let memberCf = req.payload.user;
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + memberCf);
 
     let result = await pool.query(

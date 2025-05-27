@@ -1,13 +1,24 @@
-- TODO
+- TODO:
 
-- [ ] jwt
-- [ ] password login
-- [ ] courses page
-- [ ] about us page
-- [ ] como usar el proyecto (readme)
-    - [ ] como usar el proyecto
-    - [ ] usuario y contraseña de prueba
-    - [ ] estructura
+    - [ ] jwt
+
+    - [ ] secrets management (bbdd, jwt keys)
+
+    - [ ] password login
+
+    - [ ] courses page
+
+    - [ ] about us page
+
+    - [ ] js verification for forms (2)
+
+    - [ ] como usar el proyecto (readme)
+
+        - [ ] como usar el proyecto
+
+        - [ ] usuario y contraseña de prueba
+
+        - [ ] estructura
 
 # Modifica nella richiesta del progetto
 

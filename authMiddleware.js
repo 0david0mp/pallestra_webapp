@@ -1,10 +1,29 @@
-function authMiddleware(req, res, next) {
-    const userCookie = req.cookies.user;
+const jwt = require('jsonwebtoken');
 
-    if (userCookie) {
+const JWT_SECRET = 'mia_chiave_segreta';
+
+function authMiddleware(req, res, next) {
+    const token = req.cookies.token;
+
+    if (!token) {
+        console.log('[AUT] ' + req.ip + '  :  (+) not logged in, redirecting')
+        return res.redirect('/login.html');
+    }
+
+    try {
+        const payload = jwt.verify(token, JWT_SECRET);
+        req.payload = payload;
         next();
-    } else {
-        res.redirect('/login.html');
+    } catch (error) {
+        if (error instanceof jwt.TokenExpiredError) {
+            console.log('[AUT] ' + req.ip + '  :  (!) token expired')
+        } else if (error instanceof jwt.JsonWebTokenError) {
+            console.log('[AUT] ' + req.ip + '  :  (!) invalid token')
+        } else {
+            console.log('[AUT] ' + req.ip + '  :  (!) unexpected error')
+        }
+
+        return res.redirect('/login.html');
     }
 }
 
