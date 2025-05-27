@@ -1,8 +1,10 @@
 - TODO:
 
-    - [ ] jwt
+    - [x] jwt (simetric)
 
     - [ ] secrets management (bbdd, jwt keys)
+
+    - [ ] jwt (asimetric)
 
     - [ ] password login
 
