@@ -2,14 +2,17 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
-// TODO: secret management
+require('dotenv').config();
+
 const { Pool } = require('pg');
 const authMiddleware = require('../authMiddleware');
-const JWT_SECRET = 'mia_chiave_segreta';
+const JWT_SECRET = process.env.JWT_SECRET; // for login request
 
 const pool = new Pool({
-    user: 'postgres',
-    database: 'palestra'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME
 });
 
 const router = new express.Router();

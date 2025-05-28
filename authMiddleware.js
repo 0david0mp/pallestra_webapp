@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-const JWT_SECRET = 'mia_chiave_segreta';
+const JWT_SECRET = process.env.JWT_SECRET; // checking the token
 
 function authMiddleware(req, res, next) {
     const token = req.cookies.token;
