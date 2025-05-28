@@ -4,7 +4,7 @@
 
     - [x] secrets management (bbdd, jwt keys)
 
-    - [ ] password login
+    - [ ] password login (new db)
 
     - [ ] jwt (asimetric)
 
@@ -13,6 +13,8 @@
     - [ ] about us page
 
     - [x] js verification for forms (new workout, new exercise)
+
+    - [ ] new contact form
 
     - [ ] como usar el proyecto (readme)
 
