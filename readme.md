@@ -2,17 +2,17 @@
 
     - [x] jwt (simetric)
 
-    - [ ] secrets management (bbdd, jwt keys)
-
-    - [ ] jwt (asimetric)
+    - [x] secrets management (bbdd, jwt keys)
 
     - [ ] password login
+
+    - [ ] jwt (asimetric)
 
     - [ ] courses page
 
     - [ ] about us page
 
-    - [ ] js verification for forms (2)
+    - [ ] js verification for forms (new workout, new exercise)
 
     - [ ] como usar el proyecto (readme)
 
