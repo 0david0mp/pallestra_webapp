@@ -308,6 +308,17 @@ input[type='reset']:hover {
         padding: 0.2em;
     }
 
+    input[type="text"].error,
+    input[type='password'].error,
+    input[type="number"].error,
+    input[type="select"].error,
+    textarea.error,
+    select.error {
+        background-color: var(--md-sys-color-error-container);
+        color: var(--md-sys-color-on-error-container);
+        border: 1px solid var(--md-sys-color-error);
+    }
+
     textarea {
         flex-grow: 2;
     }

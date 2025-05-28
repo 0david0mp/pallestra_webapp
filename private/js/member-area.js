@@ -1,6 +1,28 @@
 
 let popupContainer = document.getElementById("new-workout-popup-container");
 
+function checkForm(data, name, frequency, sets) {
+    [name,frequency,sets].forEach((e) => e.classList.remove('error') );
+    let result = true;
+
+    if (!data.name) {
+        name.classList.add('error');
+        result = false;
+    }
+
+    if (!data.frequency) {
+        frequency.classList.add('error');
+        result = false;
+    }
+
+    if (!(data.sets > 0)) {
+        sets.classList.add('error');
+        result = false;
+    }
+
+    return result;
+}
+
 function closePopup() {
     popupContainer.classList.remove("open");
 }
@@ -96,6 +118,8 @@ async function newWorkoutSubmitListener() {
         difficulty: difficultyValue.toLowerCase(),
         sets: setsValue
     }
+
+    if (!checkForm(data, name, frequency, sets)) { return; }
 
     let result = await fetch("/api/v1/workouts", {
         method: "POST",

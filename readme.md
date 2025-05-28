@@ -12,7 +12,7 @@
 
     - [ ] about us page
 
-    - [ ] js verification for forms (new workout, new exercise)
+    - [x] js verification for forms (new workout, new exercise)
 
     - [ ] como usar el proyecto (readme)
 

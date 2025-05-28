@@ -3,6 +3,23 @@ const workoutId = parseInt(url.search.split('=')[1]);
 
 let popupContainer = document.getElementById("new-exercise-popup-container");
 
+function checkForm(data, exercise, reps) {
+    [exercise,reps].forEach((e) => e.classList.remove('error') );
+    let result = true;
+
+    if (!exercise.value) {
+        exercise.classList.add('error');
+        result = false;
+    }
+
+    if (!(data.reps > 0)) {
+        reps.classList.add('error');
+        result = false;
+    }
+
+    return result;
+}
+
 function closePopup() {
     popupContainer.classList.remove("open");
 }
@@ -113,6 +130,8 @@ async function newExerciseSubmitListener() {
         exercise: exerciseValue,
         reps: repsValue
     }
+
+    if (!checkForm(data, exercise, reps)) { return; }
 
     let result = await fetch("/api/v1/workout/" + workoutId, {
         method: "POST",
