@@ -91,8 +91,10 @@ window.addEventListener('load', function() {
     });
 
     dropdownButton.addEventListener('click', dropdownMenuEventHandler);
-    contactForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        contactFormSubmitHandler();
-    });
+    if (contactForm) {
+        contactForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            contactFormSubmitHandler();
+        });
+    }
 });

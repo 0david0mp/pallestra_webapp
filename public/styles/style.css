@@ -332,8 +332,6 @@ textarea {
 }
 
 .adding {
-    transform: translateX(100%);
-    opacity: 0;
     animation: slideIn 0.5s ease-out forwards;
 }
 
@@ -612,6 +610,10 @@ header .logo {
 }
 
 @keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
     to {
         transform: translateX(0);
         opacity: 1;

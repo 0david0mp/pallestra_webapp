@@ -220,6 +220,7 @@ window.addEventListener('load', async () => {
 
         console.log(body);
 
+        heroTitle.classList.add('adding');
         heroTitle.textContent = body.details.name;
         document.title = body.details.name;
         sets.textContent += body.details.sets;
