@@ -1,5 +1,6 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const fs = require('fs');
 const jwt = require('jsonwebtoken');
 
 require('dotenv').config();
@@ -19,6 +20,19 @@ const router = new express.Router();
 router.use(cookieParser());
 
 // -------------------- api
+// ---------- contact
+router.post('/api/v1/contact', (req, res) => {
+    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
+
+    try {
+        fs.appendFileSync('logs/contact-form', JSON.stringify(req.body, null, 4));
+        res.send(JSON.stringify({ success: true }));
+    } catch (e) {
+        console.log(e);
+        res.status(500).send(JSON.stringify({ success: false }));
+    }
+});
+
 // ---------- login
 router.post('/api/v1/login', async (req, res) => {
     let result = await pool.query(

@@ -75,10 +75,11 @@ body {
     padding-bottom: 3rem;
 }
 
+*:not(.popup-container):not(.popup-container *) {
+    transition: 0.2s;
+}
+
 #content {
-    * {
-        transition: 0.2s;
-    }
 
     margin: auto;
     width: min(66%, 60em);
@@ -116,7 +117,6 @@ body {
     }
 
     .card.deleting {
-        transition: 0.5s;
         opacity: 0;
     }
 
@@ -290,47 +290,51 @@ input[type='reset']:hover {
     gap: 1em;
     padding: 0.9em;
 
-    input::placeholder,
-    textarea::placeholder {
-        color: var(--md-sys-color-on-surface-variant);
-    }
-
-    input[type="text"],
-    input[type='password'],
-    input[type="number"],
-    textarea,
-    select {
-        appearance: textfield;
-        font-size: 1.2rem;
-        background-color: var(--md-sys-color-surface-container-highest);
-        color: var(--md-sys-color-on-surface);
-        border: 0;
-        padding: 0.2em;
-    }
-
-    input[type="text"].error,
-    input[type='password'].error,
-    input[type="number"].error,
-    input[type="select"].error,
-    textarea.error,
-    select.error {
-        background-color: var(--md-sys-color-error-container);
-        color: var(--md-sys-color-on-error-container);
-        border: 1px solid var(--md-sys-color-error);
-    }
-
-    textarea {
-        flex-grow: 2;
-    }
-
     .button-container {
         padding: 0;
     }
+}
 
+input::placeholder,
+textarea::placeholder {
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+input:not([type='submit']):not([type='reset']),
+textarea,
+select {
+    appearance: textfield;
+    font-size: 1.2rem;
+    background-color: var(--md-sys-color-surface-container-highest);
+    color: var(--md-sys-color-on-surface);
+    border: 0;
+    padding: 0.2em;
+}
+
+input:not([type='submit']).error,
+textarea.error,
+select.error {
+    background-color: var(--md-sys-color-error-container);
+    color: var(--md-sys-color-on-error-container);
+    border: 1px solid var(--md-sys-color-error);
+}
+
+textarea {
+    flex-grow: 2;
 }
 
 .error {
     color: var(--md-sys-color-error);
+}
+
+.success {
+    color: var(--md-sys-color-tertiary);
+}
+
+.adding {
+    transform: translateX(100%);
+    opacity: 0;
+    animation: slideIn 0.5s ease-out forwards;
 }
 
 #hero {
@@ -473,23 +477,8 @@ header .logo {
     display: flex;
     flex-direction: column;
 
-    padding-block: 3em;
-
-    input {
-        font-size: 1.3rem;
-        border: 0;
-        border-bottom: 1px solid var(--md-sys-color-surface);
-        background-color: var(--md-sys-color-secondary-container);
-        color: var(--md-sys-color-on-secondary-container);
-        padding: 0.1em;
-    }
-
-    input[type="submit"] {
-        text-align: left;
-        background-color: var(--md-sys-color-primary);
-        color: var(--md-sys-color-on-primary);
-        cursor: pointer;
-    }
+    gap: 0.5em;
+    padding-block: 1em;
 }
 
 
@@ -619,5 +608,12 @@ header .logo {
     .card#not-found {
         width: 33vw;
         margin: auto;
+    }
+}
+
+@keyframes slideIn {
+    to {
+        transform: translateX(0);
+        opacity: 1;
     }
 }
