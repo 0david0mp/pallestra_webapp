@@ -43,8 +43,9 @@ router.post('/api/v1/login', async (req, res) => {
         `SELECT
             member.cf
         FROM member
-        WHERE member.cf = $1;
-        `, [req.body.cf]
+        WHERE member.cf = $1
+            AND member.pass = $2;
+        `, [req.body.cf, req.body.pass]
     );
 
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + req.body.cf + "\n\t" + JSON.stringify(result.rows));

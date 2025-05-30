@@ -4,13 +4,11 @@
 
     - [x] secrets management (bbdd, jwt keys)
 
-    - [ ] password login (new db)
-
-    - [ ] jwt (asimetric)
+    - [x] password login (new db)
 
     - [ ] courses page
 
-    - [ ] plans
+    - [ ] plans page
 
     - [ ] about us page
 
