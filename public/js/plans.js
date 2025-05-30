@@ -14,7 +14,7 @@ function newCard(cardOptions) {
     let perMonth = document.createElement('p');
 
     card.classList.add('card');
-    card.classList.add('plan');
+    card.classList.add('adding');
     card.classList.add('outlined');
 
     card.appendChild(cardContent);
