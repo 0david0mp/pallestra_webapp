@@ -6,7 +6,7 @@ function newCard(cardOptions) {
     let header = document.createElement('h1');
 
     card.classList.add('card');
-    card.classList.add('course');
+    card.classList.add('adding');
     card.classList.add('outlined');
 
     card.appendChild(cardContent);

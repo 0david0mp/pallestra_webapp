@@ -162,6 +162,17 @@ body {
 
 /* #content end*/
 
+#content.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1em;
+
+    .card {
+        margin: 0;
+    }
+}
+
 .difficulty {
     display: inline;
     padding: 0.6em;
@@ -631,17 +642,6 @@ header .logo {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 1em;
-        .card {
-            margin: 0;
-        }
-    }
-
-    #content.row {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 1em;
-
         .card {
             margin: 0;
         }
