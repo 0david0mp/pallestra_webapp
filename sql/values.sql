@@ -1,15 +1,15 @@
 -- 1. MEMBER table
 INSERT INTO "member" (cf, first_name, last_name, email, phone, gender, join_date, date_of_birth, pass) VALUES
-('RSSMRC80A01F205X', 'Marco', 'Rossi', 'marco.rossi@email.it', '+39 320 4567890', 'm', '2025-01-15', '1980-01-01'),
-('BNCGLA85B42F205Y', 'Giulia', 'Bianchi', 'giulia.bianchi@email.it', '+39 320 4567891', 'f', '2025-02-20', '1985-02-02'),
-('FRRLSS90C03F205Z', 'Alessandro', 'Ferrari', 'alessandro.ferrari@email.it', '+39 320 4567892', 'm', '2025-03-10', '1990-03-03'),
-('RMNSFA88D44F205A', 'Sofia', 'Romano', 'sofia.romano@email.it', '+39 320 4567893', 'f', '2025-04-05', '1988-04-04'),
-('SPSFNC92E05F205B', 'Francesca', 'Esposito', 'francesca.esposito@email.it', '+39 320 4567894', 'f', '2025-05-18', '1992-05-05'),
-('RCCMTT87F06F205C', 'Matteo', 'Ricci', 'matteo.ricci@email.it', '+39 320 4567895', 'm', '2025-06-22', '1987-06-06'),
-('MRNCRN94G47F205D', 'Chiara', 'Marino', 'chiara.marino@email.it', '+39 320 4567896', 'f', '2025-07-30', '1994-07-07'),
-('GRCLNZ89H08F205E', 'Lorenzo', 'Greco', 'lorenzo.greco@email.it', '+39 320 4567897', 'm', '2025-08-12', '1989-08-08'),
-('BRNVNT93I49F205F', 'Valentina', 'Bruno', 'valentina.bruno@email.it', '+39 320 4567898', 'f', '2025-09-25', '1993-09-09'),
-('GLLNDR91L10F205G', 'Andrea', 'Gallo', 'andrea.gallo@email.it', '+39 320 4567899', 'm', '2025-10-30', '1991-10-10');
+('RSSMRC80A01F205X', 'Marco',      'Rossi', 'marco.rossi@email.it', '+39 320 4567890',          'm', '2025-01-15', '1980-01-01', 'RSSMRC80A01F205X_123'),
+('BNCGLA85B42F205Y', 'Giulia',     'Bianchi', 'giulia.bianchi@email.it', '+39 320 4567891',     'f', '2025-02-20', '1985-02-02', 'BNCGLA85B42F205Y_123'),
+('FRRLSS90C03F205Z', 'Alessandro', 'Ferrari', 'alessandro.ferrari@email.it', '+39 320 4567892', 'm', '2025-03-10', '1990-03-03', 'FRRLSS90C03F205Z_123'),
+('RMNSFA88D44F205A', 'Sofia',      'Romano', 'sofia.romano@email.it', '+39 320 4567893',        'f', '2025-04-05', '1988-04-04', 'RMNSFA88D44F205A_123'),
+('SPSFNC92E05F205B', 'Francesca',  'Esposito', 'francesca.esposito@email.it', '+39 320 4567894','f', '2025-05-18', '1992-05-05', 'SPSFNC92E05F205B_123'),
+('RCCMTT87F06F205C', 'Matteo',     'Ricci', 'matteo.ricci@email.it', '+39 320 4567895',         'm', '2025-06-22', '1987-06-06', 'RCCMTT87F06F205C_123'),
+('MRNCRN94G47F205D', 'Chiara',     'Marino', 'chiara.marino@email.it', '+39 320 4567896',       'f', '2025-07-30', '1994-07-07', 'MRNCRN94G47F205D_123'),
+('GRCLNZ89H08F205E', 'Lorenzo',    'Greco', 'lorenzo.greco@email.it', '+39 320 4567897',        'm', '2025-08-12', '1989-08-08', 'GRCLNZ89H08F205E_123'),
+('BRNVNT93I49F205F', 'Valentina',  'Bruno', 'valentina.bruno@email.it', '+39 320 4567898',      'f', '2025-09-25', '1993-09-09', 'BRNVNT93I49F205F_123'),
+('GLLNDR91L10F205G', 'Andrea',     'Gallo', 'andrea.gallo@email.it', '+39 320 4567899',         'm', '2025-10-30', '1991-10-10', 'GLLNDR91L10F205G_123');
 
 -- 2. MEMBERSHIP_TYPE table
 INSERT INTO "membership_type" (name, description, months, min_members, max_members, price) VALUES

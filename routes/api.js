@@ -157,6 +157,7 @@ router.get('/api/v1/workout/:workoutid', authMiddleware, async (req, res) => {
             workout_plan.name,
             workout_plan.difficulty_level AS difficulty,
             workout_plan.sets,
+            workout_plan.frequency,
             workout_plan.description
         FROM workout_plan
             JOIN followed_by ON followed_by.workout_plan = workout_plan.id

@@ -4,7 +4,7 @@ const workoutId = parseInt(url.search.split('=')[1]);
 let popupContainer = document.getElementById("new-exercise-popup-container");
 
 function checkForm(data, exercise, reps) {
-    [exercise,reps].forEach((e) => e.classList.remove('error') );
+    [exercise, reps].forEach((e) => e.classList.remove('error'));
     let result = true;
 
     if (!exercise.value) {
@@ -201,6 +201,7 @@ window.addEventListener('load', async () => {
     let heroTitle = document.querySelector("#hero h1");
     let description = document.querySelector("p#description");
     let sets = document.querySelector("p#sets");
+    let freq = document.querySelector("p#freq");
     let difficulty = document.querySelector("p.difficulty");
 
     getExercises();
@@ -220,10 +221,13 @@ window.addEventListener('load', async () => {
 
         console.log(body);
 
-        heroTitle.classList.add('adding');
+        // animate details
+        [heroTitle, sets, freq, description, difficulty]
+            .forEach( (e) => e.classList.add('adding') );
         heroTitle.textContent = body.details.name;
         document.title = body.details.name;
-        sets.textContent += body.details.sets;
+        sets.appendChild(document.createTextNode(body.details.sets));
+        freq.appendChild(document.createTextNode(body.details.frequency));
         description.textContent = body.details.description;
         difficulty.textContent = body.details.difficulty;
         difficulty.classList.add('difficulty-' + body.details.difficulty);
