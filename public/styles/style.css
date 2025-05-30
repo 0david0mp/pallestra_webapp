@@ -630,10 +630,22 @@ header .logo {
     #content.grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        /* Two columns */
         gap: 1em;
+        .card {
+            margin: 0;
+        }
     }
 
+    #content.row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1em;
+
+        .card {
+            margin: 0;
+        }
+    }
 }
 
 @keyframes slideIn {
