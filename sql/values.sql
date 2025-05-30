@@ -26,9 +26,9 @@ INSERT INTO "membership_type" (name, description, months, min_members, max_membe
 ('Family',  'Basic access to all the equipment and courses.  For all your family or group of friends.',
        '1 month', 4, 6, 80),
 ('Youth',   'Basic access to all the equipment and courses.  For the youngest, to start early in life on fitness',
-       '1 month', 1, 1, 12.5),
+       '1 month', 1, 1, 15),
 ('Premium', 'Basic access to all the equipment and courses and to personal tracking and profesional advice',
-       '2 month', 1, 1, 25);
+       '2 month', 1, 1, 35);
 
 -- 3. MEMBERSHIP table
 INSERT INTO "membership" (start_date, end_date, status, type) VALUES

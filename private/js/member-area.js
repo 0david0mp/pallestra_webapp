@@ -1,4 +1,3 @@
-
 let popupContainer = document.getElementById("new-workout-popup-container");
 
 function checkForm(data, name, frequency, sets) {
