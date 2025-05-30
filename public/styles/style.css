@@ -76,7 +76,7 @@ body {
     padding-bottom: 3rem;
 }
 
-*:not(.popup-container):not(.popup-container *) {
+*:not(.popup-container):not(.popup-container *):not(.dropdown):not(.dropdown *) {
     transition: 0.2s;
 }
 
