@@ -10,7 +10,6 @@
 
     - [ ] plans page
 
-    - [ ] about us page
 
     - [x] js verification for forms (new workout, new exercise)
 

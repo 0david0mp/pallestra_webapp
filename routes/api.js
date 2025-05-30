@@ -66,6 +66,19 @@ router.get('/api/v1/plans', async (req, res) => {
     res.send(memberships);
 });
 
+// ---------- courses
+router.get('/api/v1/courses', async (req, res) => {
+    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
+
+    let result = await pool.query(
+        `SELECT DISTINCT name
+        FROM recurrent_class;`
+    );
+
+    res.send(result.rows);
+});
+
+
 // ---------- login
 router.post('/api/v1/login', async (req, res) => {
     let result = await pool.query(
