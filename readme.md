@@ -1,10 +1,3 @@
----
-titlepage: true
-title: "programmazione web: pallestra web application"
-author: "David Mieres Pérez"
-disable-header-and-footer: true
----
-
 # Modificazione nella richiesta del progetto
 
 Per comodità, ho utilizzato un'immagine trovata su Internet e ho implementato il
