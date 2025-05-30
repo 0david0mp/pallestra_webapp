@@ -14,7 +14,7 @@
 
     - [x] js verification for forms (new workout, new exercise)
 
-    - [ ] new contact form
+    - [x] new contact form
 
     - [ ] como usar el proyecto (readme)
 
