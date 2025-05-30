@@ -37,6 +37,35 @@ router.post('/api/v1/contact', (req, res) => {
     }
 });
 
+// ---------- plans
+router.get('/api/v1/plans', async (req, res) => {
+    console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
+    let memberships = [];
+
+    let result = await pool.query(
+        `SELECT DISTINCT name, min_members, max_members, description, MIN(id) ording
+        FROM membership_type
+        GROUP BY name, min_members, max_members, description
+        ORDER BY ording;`
+    );
+
+    for (let e of result.rows) {
+        let auxResult = await pool.query(
+            `SELECT id, months, price FROM membership_type WHERE name = $1;`,
+            [e.name]
+        );
+
+        e.subTypes = [];
+        auxResult.rows.forEach(a => {
+            e.subTypes.push({ months: a.months.months, price: a.price });
+        });
+
+        memberships.push(e);
+    }
+
+    res.send(memberships);
+});
+
 // ---------- login
 router.post('/api/v1/login', async (req, res) => {
     let result = await pool.query(
