@@ -25,7 +25,11 @@ router.post('/api/v1/contact', (req, res) => {
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
 
     try {
-        fs.appendFileSync('logs/contact-form', JSON.stringify(req.body, null, 4));
+        if (!fs.existsSync('logs') || !fs.statSync('logs').isDirectory()) {
+            fs.mkdirSync('logs');
+        }
+
+        fs.appendFileSync('logs/contact-form', JSON.stringify(req.body, null, 4) + '\n');
         res.send(JSON.stringify({ success: true }));
     } catch (e) {
         console.log(e);
