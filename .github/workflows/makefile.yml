@@ -45,5 +45,5 @@ jobs:
         run: |
           git fetch
           git add progweb_2025_david_mieres.zip
-          git commit -m "zip automated update" || echo "No changes to commit"
+          git commit -m "zip automated update [skip ci]" || echo "No changes to commit"
           git push
