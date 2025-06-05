@@ -8,7 +8,7 @@ readme.pdf: readme.md
 	pandoc --listings $^ --template eisvogel -o $@
 
 progweb_2025_david_mieres.zip:
-	zip $@ -r . -x "node_modules/*" -x "logs/*" -x ".git/*" -x ".gitignore" -x ".github/*"
+	zip $@ -r . -x "node_modules/*" -x "logs/*" -x ".git/*" -x ".gitignore" -x ".github/*" -x "*.md"
 
 db: sql/tables.sql sql/values.sql
 	clear
