@@ -38,3 +38,5 @@ make db # crea il db, tutte le tavole e aggiunge i valori
 node server.js
 ```
 
+Qui ci sono cualqun esempio di codice fiscale di utenti.  Le password sono
+ugualle al codice fiscale dal utenti, aggiungendo "_123" alle fine.
