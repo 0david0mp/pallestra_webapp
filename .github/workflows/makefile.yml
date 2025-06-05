@@ -16,4 +16,4 @@ jobs:
         - name: Create zip archive
           run: |
               make progweb_2025_david_mieres.zip
-              git add .; git commit "updated zip file"; git push
+              ls; git add .; git commit -m "updated zip file"; git push
