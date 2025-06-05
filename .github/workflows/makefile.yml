@@ -33,7 +33,6 @@ jobs:
           run: |
             git config --global user.name 'github-actions'
             git config --global user.email 'github-actions@github.com'
-            git remote add origin ssh://github.com/0david0mp/pallestra_webapp
 
         - name: Create zip archive
           if: steps.check_author.outputs.author != 'github_actions'
