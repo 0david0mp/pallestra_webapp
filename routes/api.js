@@ -21,7 +21,7 @@ router.use(cookieParser());
 
 // -------------------- api
 // ---------- contact
-router.post('/api/v1/contact', (req, res) => {
+router.post('/api/contact', (req, res) => {
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
 
     try {
@@ -38,7 +38,7 @@ router.post('/api/v1/contact', (req, res) => {
 });
 
 // ---------- plans
-router.get('/api/v1/plans', async (req, res) => {
+router.get('/api/plans', async (req, res) => {
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
     let memberships = [];
 
@@ -67,7 +67,7 @@ router.get('/api/v1/plans', async (req, res) => {
 });
 
 // ---------- courses
-router.get('/api/v1/courses', async (req, res) => {
+router.get('/api/courses', async (req, res) => {
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
 
     let result = await pool.query(
@@ -80,7 +80,7 @@ router.get('/api/v1/courses', async (req, res) => {
 
 
 // ---------- login
-router.post('/api/v1/login', async (req, res) => {
+router.post('/api/login', async (req, res) => {
     let result = await pool.query(
         `SELECT
             member.cf
@@ -106,7 +106,7 @@ router.post('/api/v1/login', async (req, res) => {
     res.send();
 });
 
-router.get('/api/v1/logout', authMiddleware, async (req, res) => {
+router.get('/api/logout', authMiddleware, async (req, res) => {
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + req.payload.user);
 
     res.clearCookie('token').send();
@@ -114,7 +114,7 @@ router.get('/api/v1/logout', authMiddleware, async (req, res) => {
 
 // ---------- workouts
 // list workouts of a user
-router.get('/api/v1/workouts', authMiddleware, async (req, res) => {
+router.get('/api/workouts', authMiddleware, async (req, res) => {
     let memberCf = req.payload.user;
 
     let result = await pool.query(
@@ -135,7 +135,7 @@ router.get('/api/v1/workouts', authMiddleware, async (req, res) => {
 });
 
 // new workout of a user
-router.post('/api/v1/workouts', authMiddleware, async (req, res) => {
+router.post('/api/workouts', authMiddleware, async (req, res) => {
     let memberCf = req.payload.user
 
     const client = await pool.connect();
@@ -173,7 +173,7 @@ router.post('/api/v1/workouts', authMiddleware, async (req, res) => {
 });
 
 // delete workout of a user
-router.delete('/api/v1/workouts', authMiddleware, async (req, res) => {
+router.delete('/api/workouts', authMiddleware, async (req, res) => {
     let memberCf = req.payload.user
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
     let result = await pool.query(
@@ -195,7 +195,7 @@ router.delete('/api/v1/workouts', authMiddleware, async (req, res) => {
 
 // ---------- exercises
 // list exercises on a workout
-router.get('/api/v1/workout/:workoutid', authMiddleware, async (req, res) => {
+router.get('/api/workout/:workoutid', authMiddleware, async (req, res) => {
     let workoutId = req.params.workoutid
     let memberCf = req.payload.user
 
@@ -249,7 +249,7 @@ router.get('/api/v1/workout/:workoutid', authMiddleware, async (req, res) => {
 });
 
 // new exercise for a workout
-router.post('/api/v1/workout/:workoutid', async (req, res) => {
+router.post('/api/workout/:workoutid', async (req, res) => {
     // TODO: check user
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
 
@@ -278,7 +278,7 @@ router.post('/api/v1/workout/:workoutid', async (req, res) => {
 });
 
 // delete exercise from workout
-router.delete('/api/v1/workout/:workoutid', authMiddleware, async (req, res) => {
+router.delete('/api/workout/:workoutid', authMiddleware, async (req, res) => {
     let memberCf = req.payload.user;
 
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + JSON.stringify(req.body));
@@ -304,7 +304,7 @@ router.delete('/api/v1/workout/:workoutid', authMiddleware, async (req, res) => 
 });
 
 // list all the exercises (for selecting when adding a exercise)
-router.get('/api/v1/exercises', authMiddleware, async (req, res) => {
+router.get('/api/exercises', authMiddleware, async (req, res) => {
     let memberCf = req.payload.user;
     console.log("[API]" + req.ip + ": " + req.method + "(" + req.url + ")  " + memberCf);
 

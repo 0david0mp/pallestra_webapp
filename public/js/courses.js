@@ -22,7 +22,7 @@ function newCard(cardOptions) {
 
 window.addEventListener('load', async () => {
     try {
-        let result = await fetch('/api/v1/courses');
+        let result = await fetch('/api/courses');
 
         if (!result.ok) {
             console.error('Error fetching courses')

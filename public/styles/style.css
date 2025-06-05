@@ -167,6 +167,7 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 1em;
+    padding-bottom: 2em;
 
     .card {
         margin: 0;
@@ -304,7 +305,7 @@ input[type='reset']:hover {
     position: relative;
     padding: 1em;
     margin: auto;
-    background: var(--md-sys-color-surface);
+    background: var(--md-sys-color-surface-container-high);
     border-radius: var(--border-radius);
     min-width: 33%;
     max-width: 95%;
