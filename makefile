@@ -4,11 +4,17 @@ PSQL_FLAGS = -d "$(DB_NAME)" $(CLEAN_PSQL_FLAGS)
 
 .PHONY: progweb_2025_david_mieres.zip
 
+readme.pdf: readme.md
+	pandoc --listings $^ --template eisvogel -o $@
+
 progweb_2025_david_mieres.zip:
 	zip $@ -r . -x "node_modules/*" -x "logs/*" -x ".git/*" -x ".gitignore" -x ".github/*"
 
 db: sql/tables.sql sql/values.sql
-	clear; psql $(PSQL_FLAGS) -f $< && psql $(PSQL_FLAGS) -f sql/values.sql
+	clear
+	@for f in $^; do \
+		psql $(PSQL_FLAGS) -f "$$f"; \
+	done
 
 clean_db:
 	psql $(CLEAN_PSQL_FLAGS) -c "DROP DATABASE \"$(DB_NAME)\";"; psql $(CLEAN_PSQL_FLAGS) -c "CREATE DATABASE \"$(DB_NAME)\";";
