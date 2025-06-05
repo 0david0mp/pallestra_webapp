@@ -14,4 +14,6 @@ jobs:
         - uses: actions/checkout@v4
 
         - name: Create zip archive
-          run: make progweb_2025_david_mieres.zip
+          run: |
+              make progweb_2025_david_mieres.zip
+              git add .; git commit "updated zip file"; git push
