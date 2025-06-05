@@ -29,6 +29,8 @@ persone e i prezzi.
 
 # utilizzazione
 
+Prima di tutto, devi avere il server *PostgreSQL* in esecuzione.
+
 Per usare il progetto, e semplicemente fare il deploy dell database (`make db`)
 e dopo esseguire con `node` il server (`node server.js`).
 
@@ -40,3 +42,8 @@ node server.js
 
 Qui ci sono cualqun esempio di codice fiscale di utenti.  Le password sono
 ugualle al codice fiscale dal utenti, aggiungendo "_123" alle fine.
+
+- RSSMRC80A01F205X
+- BNCGLA85B42F205Y
+- FRRLSS90C03F205Z
+- RMNSFA88D44F205A
