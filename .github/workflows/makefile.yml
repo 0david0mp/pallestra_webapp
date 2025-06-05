@@ -1,49 +1,49 @@
 name: Makefile CI
 
 on:
-    push:
-        branches: [ "master" ]
-    pull_request:
-        branches: [ "master" ]
+  push:
+    branches: [ "master" ]
 
 jobs:
-    update_zip:
-        runs-on: ubuntu-latest
+  update_zip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-        steps:
-        - uses: actions/checkout@v4
+      - name: Check last commit author and message
+        id: check_commit
+        run: |
+          AUTHOR=$(git log -1 --pretty=format:'%an')
+          MESSAGE=$(git log -1 --pretty=format:'%s')
+          echo "Last commit author: $AUTHOR"
+          echo "Last commit message: $MESSAGE"
+          echo "author=$AUTHOR" >> "$GITHUB_OUTPUT"
+          echo "message=$MESSAGE" >> "$GITHUB_OUTPUT"
 
-        - name: Exit if last commit was by github-actions
-          id: check_author
-          run: |
-            AUTHOR=$(git log -1 --pretty=format:'%an')
-            echo "Last commit author: $AUTHOR"
-            echo "author=$AUTHOR" >> "$GITHUB_OUTPUT"
+      - name: Set up SSH
+        if: steps.check_commit.outputs.author != 'github-actions' && ! contains(steps.check_commit.outputs.message, 'zip automated update')
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        - name: Set up SSH
-          if: steps.check_author.outputs.author != 'github_actions'
-          run: |
-            mkdir -p ~/.ssh
-            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-            chmod 600 ~/.ssh/id_ed25519
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - name: Set up Git
+        if: steps.check_commit.outputs.author != 'github-actions' && ! contains(steps.check_commit.outputs.message, 'zip automated update')
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git remote set-url origin git@github.com:0david0mp/pallestra_webapp.git
 
-        - name: Set up Git
-          if: steps.check_author.outputs.author != 'github_actions'
-          run: |
-            git config --global user.name 'github-actions'
-            git config --global user.email 'github-actions@github.com'
-            git remote set-url origin git@github.com:0david0mp/pallestra_webapp.git
+      - name: Create zip archive
+        if: steps.check_commit.outputs.author != 'github-actions' && ! contains(steps.check_commit.outputs.message, 'zip automated update')
+        run: |
+          make progweb_2025_david_mieres.zip
 
-        - name: Create zip archive
-          if: steps.check_author.outputs.author != 'github_actions'
-          run: |
-              make progweb_2025_david_mieres.zip
-
-        - name: Commit ZIP archive
-          if: steps.check_author.outputs.author != 'github_actions'
-          run: |
-            git fetch
-            git add progweb_2025_david_mieres.zip
-            git commit -m "zip automated update" || echo "No changes to commit"
-            git push
+      - name: Commit ZIP archive
+        if: steps.check_commit.outputs.author != 'github-actions' && ! contains(steps.check_commit.outputs.message, 'zip automated update')
+        run: |
+          git fetch
+          git add progweb_2025_david_mieres.zip
+          git commit -m "zip automated update" || echo "No changes to commit"
+          git push
