@@ -14,24 +14,34 @@ jobs:
         - uses: actions/checkout@v4
 
         - name: Exit if last commit was by github-actions
+          id: check_author
           run: |
             AUTHOR=$(git log -1 --pretty=format:'%an')
             echo "Last commit author: $AUTHOR"
-            if [ "$AUTHOR" = "github-actions" ]; then
-                echo "Commit by github-actions – skipping workflow."
-                exit 0
-            fi
+            echo "author=$AUTHOR" >> "$GITHUB_OUTPUT"
 
-        - name: Set up Git user
+        - name: Set up SSH
+          if: steps.check_author.outputs.author != 'github_actions'
+          run: |
+            mkdir -p ~/.ssh
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+            chmod 600 ~/.ssh/id_ed25519
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+        - name: Set up Git
+          if: steps.check_author.outputs.author != 'github_actions'
           run: |
             git config --global user.name 'github-actions'
             git config --global user.email 'github-actions@github.com'
+            git remote add origin ssh://github.com/0david0mp/pallestra_webapp
 
         - name: Create zip archive
+          if: steps.check_author.outputs.author != 'github_actions'
           run: |
               make progweb_2025_david_mieres.zip
 
         - name: Commit ZIP archive
+          if: steps.check_author.outputs.author != 'github_actions'
           run: |
             git fetch
             git add progweb_2025_david_mieres.zip
