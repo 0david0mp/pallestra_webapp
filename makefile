@@ -5,7 +5,7 @@ PSQL_FLAGS = -d "$(DB_NAME)" $(CLEAN_PSQL_FLAGS)
 .PHONY: progweb_2025_david_mieres.zip
 
 progweb_2025_david_mieres.zip:
-	zip $@ -r . -x "node_modules/*" -x "logs/*" -x ".git/*" -x ".gitignore"
+	zip $@ -r . -x "node_modules/*" -x "logs/*" -x ".git/*" -x ".gitignore" -x ".github/*"
 
 db: sql/tables.sql sql/values.sql
 	clear; psql $(PSQL_FLAGS) -f $< && psql $(PSQL_FLAGS) -f sql/values.sql

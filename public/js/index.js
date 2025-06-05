@@ -49,7 +49,7 @@ async function contactFormSubmitHandler() {
         reason: reason.value,
     }
 
-    let result = await fetch("/api/v1/contact", {
+    let result = await fetch("/api/contact", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

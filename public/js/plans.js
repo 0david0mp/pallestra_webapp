@@ -56,7 +56,7 @@ function newCard(cardOptions) {
 
 window.addEventListener('load', async () => {
     try {
-        let result = await fetch('/api/v1/plans');
+        let result = await fetch('/api/plans');
 
         if (!result.ok) {
             console.error('Error fetching plans')

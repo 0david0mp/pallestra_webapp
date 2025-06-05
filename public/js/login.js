@@ -17,7 +17,7 @@ window.onload = function() {
 
         event.preventDefault();
         try {
-            let result = await fetch('/api/v1/login', {
+            let result = await fetch('/api/login', {
                 method: "POST",
                 credentials: 'include',
                 headers: {

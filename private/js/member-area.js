@@ -120,7 +120,7 @@ async function newWorkoutSubmitListener() {
 
     if (!checkForm(data, name, frequency, sets)) { return; }
 
-    let result = await fetch("/api/v1/workouts", {
+    let result = await fetch("/api/workouts", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -159,7 +159,7 @@ async function newWorkoutSubmitListener() {
 
 async function deleteWorkoutClickListener(id) {
     let card = document.getElementById(`workout-${id}`);
-    let result = await fetch("/api/v1/workouts", {
+    let result = await fetch("/api/workouts", {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
@@ -190,7 +190,7 @@ window.addEventListener('load', async () => {
     });
 
     try {
-        let result = await fetch("/api/v1/workouts");
+        let result = await fetch("/api/workouts");
 
         if (!result.ok) {
             console.error("Error fetching workouts")
@@ -232,7 +232,7 @@ window.addEventListener('load', async () => {
 
 
         document.getElementById("logout-button").addEventListener('click', async () => {
-            await fetch('/api/v1/logout');
+            await fetch('/api/logout');
             document.location.href = '/index.html'
         });
     }

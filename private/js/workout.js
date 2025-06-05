@@ -32,7 +32,7 @@ async function getExercises() {
     let select = document.getElementById('new-exercise');
 
     try {
-        let result = await fetch('/api/v1/exercises');
+        let result = await fetch('/api/exercises');
         if (!result.ok) {
             console.log('error fetching exercises')
         }
@@ -133,7 +133,7 @@ async function newExerciseSubmitListener() {
 
     if (!checkForm(data, exercise, reps)) { return; }
 
-    let result = await fetch("/api/v1/workout/" + workoutId, {
+    let result = await fetch("/api/workout/" + workoutId, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -171,7 +171,7 @@ async function deleteExerciseClickListener(order) {
     console.log("deleting exercise " + order + "...")
     let card = document.getElementById(`exercise-${order}`);
 
-    let result = await fetch("/api/v1/workout/" + workoutId, {
+    let result = await fetch("/api/workout/" + workoutId, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
@@ -211,7 +211,7 @@ window.addEventListener('load', async () => {
     });
 
     try {
-        let result = await fetch("/api/v1/workout/" + workoutId);
+        let result = await fetch("/api/workout/" + workoutId);
 
         if (!result.ok) {
             console.error("Error fetching selected workout (" + workoutId + ")");
