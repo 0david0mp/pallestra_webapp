@@ -1,0 +1,39 @@
+name: Makefile CI
+
+on:
+    push:
+        branches: [ "master" ]
+    pull_request:
+        branches: [ "master" ]
+
+jobs:
+    update_zip:
+        runs-on: ubuntu-latest
+
+        steps:
+        - uses: actions/checkout@v4
+
+        - name: Exit if last commit was by github-actions
+          run: |
+            AUTHOR=$(git log -1 --pretty=format:'%an')
+            echo "Last commit author: $AUTHOR"
+            if [ "$AUTHOR" = "github-actions" ]; then
+                echo "Commit by github-actions – skipping workflow."
+                exit 0
+            fi
+
+        - name: Set up Git user
+          run: |
+            git config --global user.name 'github-actions'
+            git config --global user.email 'github-actions@github.com'
+
+        - name: Create zip archive
+          run: |
+              make progweb_2025_david_mieres.zip
+
+        - name: Commit ZIP archive
+          run: |
+            git fetch
+            git add progweb_2025_david_mieres.zip
+            git commit -m "zip automated update" || echo "No changes to commit"
+            git push
