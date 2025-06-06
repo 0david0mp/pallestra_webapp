@@ -29,14 +29,17 @@ persone e i prezzi.
 
 # utilizzazione
 
-Prima di tutto, devi avere il server *PostgreSQL* in esecuzione.
+Prima di tutto, devi avere il server *PostgreSQL* in esecuzione.  Non utilizo
+password per il usuario 'postgres' per fare il deploy (vedere `makefile`,
+variabile `CLEAN_PSQL_FLAGS`).
 
-Per usare il progetto, e semplicemente fare il deploy dell database (`make db`)
-e dopo esseguire con `node` il server (`node server.js`).
+Per usare il progetto, e semplicemente creare la database (`make clean_db`) e
+fare il deploy dell database (`make db`) e dopo esseguire con `node` il server
+(`node server.js`).
 
 ```sh
 npm install # installa dipendenza sul file `./package.json`
-make db # crea il db, tutte le tavole e aggiunge i valori
+make clean_db db # crea il db, tutte le tavole e aggiunge i valori
 node server.js
 ```
 
