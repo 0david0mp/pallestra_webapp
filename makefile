@@ -9,7 +9,11 @@ readme.pdf: readme.md
 
 progweb_2025_david_mieres.zip:
 	rm $@
-	zip $@ -r . -x "node_modules/*" -x "logs/*" -x ".git/*" -x ".gitignore" -x ".github/*" -x "*.md"
+	zip $@ -r . \
+		-x "node_modules/*" \
+		-x "logs/*" \
+		-x ".git/*" -x ".gitignore" -x ".github/*" \
+		-x "*.md" -x "media/*"
 
 db: sql/tables.sql sql/values.sql
 	clear
