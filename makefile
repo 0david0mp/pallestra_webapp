@@ -4,17 +4,6 @@ PSQL_FLAGS = -d "$(DB_NAME)" $(CLEAN_PSQL_FLAGS)
 
 .PHONY: progweb_2025_david_mieres.zip
 
-readme.pdf: readme.md
-	pandoc --listings $^ --template eisvogel -o $@
-
-progweb_2025_david_mieres.zip:
-	rm $@
-	zip $@ -r . \
-		-x "node_modules/*" \
-		-x "logs/*" \
-		-x ".git/*" -x ".gitignore" -x ".github/*" \
-		-x "*.md" -x "media/*"
-
 db: sql/tables.sql sql/values.sql
 	clear
 	@for f in $^; do \
@@ -23,3 +12,16 @@ db: sql/tables.sql sql/values.sql
 
 clean_db:
 	psql $(CLEAN_PSQL_FLAGS) -c "DROP DATABASE \"$(DB_NAME)\";"; psql $(CLEAN_PSQL_FLAGS) -c "CREATE DATABASE \"$(DB_NAME)\";";
+
+readme.pdf: readme.md
+	pandoc --metadata=disable-header-and-footer:true \
+			--template eisvogel --listings \
+			$^ -o $@
+
+progweb_2025_david_mieres.zip:
+	rm $@
+	zip $@ -r . \
+		-x "node_modules/*" \
+		-x "logs/*" \
+		-x ".git/*" -x ".gitignore" -x ".github/*" \
+		-x "*.md" -x "media/*"
