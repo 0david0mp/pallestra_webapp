@@ -32,17 +32,17 @@ INSERT INTO "membership_type" (name, description, months, min_members, max_membe
 
 -- 3. MEMBERSHIP table
 INSERT INTO "membership" (start_date, end_date, status, type) VALUES
-('2025-05-25', DATE '2025-05-25' + INTERVAL '1 month', 'waiting payment',  6),
-('2025-06-03', DATE '2025-06-03' + INTERVAL '1 month', 'waiting payment',  1),
-('2025-06-10', DATE '2025-06-10' + INTERVAL '2 month', 'waiting payment',  2),
-('2023-03-01', DATE '2023-03-01' + INTERVAL '2 month', 'inactive',  2),
-('2025-05-18', DATE '2025-05-18' + INTERVAL '3 month', 'inactive',  3),
-('2025-06-22', DATE '2025-06-22' + INTERVAL '3 month', 'active',    3),
-('2024-07-30', DATE '2024-07-30' + INTERVAL '1 month', 'inactive',  4),
-('2024-08-12', DATE '2024-08-12' + INTERVAL '1 month', 'inactive',  4),
-('2024-09-25', DATE '2024-09-25' + INTERVAL '2 month', 'inactive',  2),
-('2024-10-30', DATE '2024-10-30' + INTERVAL '2 month', 'inactive',  2),
-('2025-05-25', DATE '2025-05-25' + INTERVAL '1 month', 'waiting payment',  1);
+('2025-05-25', DATE '2028-05-25' + INTERVAL '1 month', 'waiting payment',  6),
+('2025-06-03', DATE '2028-06-03' + INTERVAL '1 month', 'waiting payment',  1),
+('2025-06-10', DATE '2028-06-10' + INTERVAL '2 month', 'waiting payment',  2),
+('2023-03-01', DATE '2026-03-01' + INTERVAL '2 month', 'inactive',  2),
+('2025-05-18', DATE '2028-05-18' + INTERVAL '3 month', 'inactive',  3),
+('2025-06-22', DATE '2028-06-22' + INTERVAL '3 month', 'active',    3),
+('2024-07-30', DATE '2027-07-30' + INTERVAL '1 month', 'inactive',  4),
+('2024-08-12', DATE '2027-08-12' + INTERVAL '1 month', 'inactive',  4),
+('2024-09-25', DATE '2027-09-25' + INTERVAL '2 month', 'inactive',  2),
+('2024-10-30', DATE '2027-10-30' + INTERVAL '2 month', 'inactive',  2),
+('2025-05-25', DATE '2028-05-25' + INTERVAL '1 month', 'waiting payment',  1);
 
 -- 4. PAYMENT table
 INSERT INTO "payment" (timestamp, membership, amount) VALUES

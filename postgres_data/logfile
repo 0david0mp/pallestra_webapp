@@ -1,0 +1,118 @@
+2025-07-18 03:41:01.804 CEST [196390] LOG:  starting PostgreSQL 15.7 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.3.0, 64-bit
+2025-07-18 03:41:01.805 CEST [196390] LOG:  listening on IPv6 address "::1", port 5432
+2025-07-18 03:41:01.805 CEST [196390] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-07-18 03:41:01.808 CEST [196390] LOG:  listening on Unix socket "/home/david/clase/pwm/progetto/postgres_data/.s.PGSQL.5432"
+2025-07-18 03:41:01.812 CEST [196393] LOG:  database system was shut down at 2025-07-18 03:41:01 CEST
+2025-07-18 03:41:01.815 CEST [196390] LOG:  database system is ready to accept connections
+2025-07-18 03:41:01.901 CEST [196390] LOG:  received fast shutdown request
+2025-07-18 03:41:01.903 CEST [196390] LOG:  aborting any active transactions
+2025-07-18 03:41:01.905 CEST [196390] LOG:  background worker "logical replication launcher" (PID 196397) exited with exit code 1
+2025-07-18 03:41:01.906 CEST [196391] LOG:  shutting down
+2025-07-18 03:41:01.907 CEST [196391] LOG:  checkpoint starting: shutdown immediate
+2025-07-18 03:41:01.921 CEST [196391] LOG:  checkpoint complete: wrote 7 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.004 s, sync=0.005 s, total=0.016 s; sync files=6, longest=0.002 s, average=0.001 s; distance=2 kB, estimate=2 kB
+2025-07-18 03:41:01.924 CEST [196390] LOG:  database system is shut down
+2025-07-18 03:41:02.035 CEST [196438] LOG:  starting PostgreSQL 15.7 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.3.0, 64-bit
+2025-07-18 03:41:02.035 CEST [196438] LOG:  listening on IPv6 address "::1", port 5432
+2025-07-18 03:41:02.035 CEST [196438] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-07-18 03:41:02.038 CEST [196438] LOG:  listening on Unix socket "/home/david/clase/pwm/progetto/postgres_data/.s.PGSQL.5432"
+2025-07-18 03:41:02.042 CEST [196443] LOG:  database system was shut down at 2025-07-18 03:41:01 CEST
+2025-07-18 03:41:02.046 CEST [196438] LOG:  database system is ready to accept connections
+2025-07-18 03:41:12.225 CEST [196769] ERROR:  database "palestra_pwm" does not exist
+2025-07-18 03:41:12.225 CEST [196769] STATEMENT:  DROP DATABASE "palestra_pwm";
+2025-07-18 03:41:12.355 CEST [196776] ERROR:  new row for relation "membership" violates check constraint "old_end_date"
+2025-07-18 03:41:12.355 CEST [196776] DETAIL:  Failing row contains (1, 2025-05-25, 2025-06-25, waiting payment, 6).
+2025-07-18 03:41:12.355 CEST [196776] STATEMENT:  INSERT INTO "membership" (start_date, end_date, status, type) VALUES
+	('2025-05-25', DATE '2025-05-25' + INTERVAL '1 month', 'waiting payment',  6),
+	('2025-06-03', DATE '2025-06-03' + INTERVAL '1 month', 'waiting payment',  1),
+	('2025-06-10', DATE '2025-06-10' + INTERVAL '2 month', 'waiting payment',  2),
+	('2023-03-01', DATE '2023-03-01' + INTERVAL '2 month', 'inactive',  2),
+	('2025-05-18', DATE '2025-05-18' + INTERVAL '3 month', 'inactive',  3),
+	('2025-06-22', DATE '2025-06-22' + INTERVAL '3 month', 'active',    3),
+	('2024-07-30', DATE '2024-07-30' + INTERVAL '1 month', 'inactive',  4),
+	('2024-08-12', DATE '2024-08-12' + INTERVAL '1 month', 'inactive',  4),
+	('2024-09-25', DATE '2024-09-25' + INTERVAL '2 month', 'inactive',  2),
+	('2024-10-30', DATE '2024-10-30' + INTERVAL '2 month', 'inactive',  2),
+	('2025-05-25', DATE '2025-05-25' + INTERVAL '1 month', 'waiting payment',  1);
+2025-07-18 03:42:18.461 CEST [196441] LOG:  checkpoint starting: immediate force wait
+2025-07-18 03:42:18.482 CEST [196441] LOG:  checkpoint complete: wrote 54 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.005 s, sync=0.009 s, total=0.021 s; sync files=18, longest=0.002 s, average=0.001 s; distance=4991 kB, estimate=4991 kB
+2025-07-18 03:42:21.336 CEST [196438] LOG:  received fast shutdown request
+2025-07-18 03:42:21.337 CEST [196438] LOG:  aborting any active transactions
+2025-07-18 03:42:21.340 CEST [196438] LOG:  background worker "logical replication launcher" (PID 196454) exited with exit code 1
+2025-07-18 03:42:21.341 CEST [196441] LOG:  shutting down
+2025-07-18 03:42:21.342 CEST [196441] LOG:  checkpoint starting: shutdown immediate
+2025-07-18 03:42:21.483 CEST [196441] LOG:  checkpoint complete: wrote 1044 buffers (6.4%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.012 s, sync=0.123 s, total=0.143 s; sync files=343, longest=0.002 s, average=0.001 s; distance=4823 kB, estimate=4974 kB
+2025-07-18 03:42:21.490 CEST [196438] LOG:  database system is shut down
+2025-07-18 03:42:23.670 CEST [199271] LOG:  starting PostgreSQL 15.7 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.3.0, 64-bit
+2025-07-18 03:42:23.671 CEST [199271] LOG:  listening on IPv6 address "::1", port 5432
+2025-07-18 03:42:23.671 CEST [199271] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-07-18 03:42:23.674 CEST [199271] LOG:  listening on Unix socket "/home/david/clase/pwm/progetto/postgres_data/.s.PGSQL.5432"
+2025-07-18 03:42:23.680 CEST [199274] LOG:  database system was shut down at 2025-07-18 03:42:21 CEST
+2025-07-18 03:42:23.738 CEST [199271] LOG:  database system is ready to accept connections
+2025-07-18 03:43:12.144 CEST [199271] LOG:  received fast shutdown request
+2025-07-18 03:43:12.145 CEST [199271] LOG:  aborting any active transactions
+2025-07-18 03:43:12.149 CEST [199271] LOG:  background worker "logical replication launcher" (PID 199277) exited with exit code 1
+2025-07-18 03:43:12.149 CEST [199272] LOG:  shutting down
+2025-07-18 03:43:12.150 CEST [199272] LOG:  checkpoint starting: shutdown immediate
+2025-07-18 03:43:12.169 CEST [199272] LOG:  checkpoint complete: wrote 50 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.004 s, sync=0.008 s, total=0.020 s; sync files=14, longest=0.002 s, average=0.001 s; distance=205 kB, estimate=205 kB
+2025-07-18 03:43:12.171 CEST [199271] LOG:  database system is shut down
+2025-07-18 03:43:17.592 CEST [201332] LOG:  starting PostgreSQL 15.7 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.3.0, 64-bit
+2025-07-18 03:43:17.592 CEST [201332] LOG:  listening on IPv6 address "::1", port 5432
+2025-07-18 03:43:17.592 CEST [201332] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-07-18 03:43:17.596 CEST [201332] LOG:  listening on Unix socket "/home/david/clase/pwm/progetto/postgres_data/.s.PGSQL.5432"
+2025-07-18 03:43:17.600 CEST [201335] LOG:  database system was shut down at 2025-07-18 03:43:12 CEST
+2025-07-18 03:43:17.603 CEST [201332] LOG:  database system is ready to accept connections
+2025-07-18 03:44:09.508 CEST [203334] FATAL:  pre-existing shared memory block (key 30952811, ID 32792) is still in use
+2025-07-18 03:44:09.508 CEST [203334] HINT:  Terminate any old server processes associated with data directory "/home/david/docs/recursos/Curso24-25_2/pwm/progetto/postgres_data".
+2025-07-18 03:44:09.508 CEST [203334] LOG:  database system is shut down
+2025-07-18 03:44:17.624 CEST [201332] LOG:  could not open file "postmaster.pid": No such file or directory
+2025-07-18 03:44:17.624 CEST [201332] LOG:  performing immediate shutdown because data directory lock file is invalid
+2025-07-18 03:44:17.625 CEST [201332] LOG:  received immediate shutdown request
+2025-07-18 03:44:17.625 CEST [201332] LOG:  could not open file "postmaster.pid": No such file or directory
+2025-07-18 03:44:17.630 CEST [201332] LOG:  database system is shut down
+2025-07-18 03:45:02.761 CEST [205190] LOG:  starting PostgreSQL 15.7 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.3.0, 64-bit
+2025-07-18 03:45:02.761 CEST [205190] LOG:  listening on IPv6 address "::1", port 5432
+2025-07-18 03:45:02.761 CEST [205190] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2025-07-18 03:45:02.764 CEST [205190] LOG:  listening on Unix socket "/home/david/docs/recursos/Curso24-25_2/pwm/progetto/postgres_data/.s.PGSQL.5432"
+2025-07-18 03:45:02.767 CEST [205193] LOG:  database system was interrupted; last known up at 2025-07-18 03:43:17 CEST
+2025-07-18 03:45:03.308 CEST [205193] LOG:  database system was not properly shut down; automatic recovery in progress
+2025-07-18 03:45:03.311 CEST [205193] LOG:  redo starts at 0/1F2BAC8
+2025-07-18 03:45:03.311 CEST [205193] LOG:  invalid record length at 0/1F2BB00: wanted 24, got 0
+2025-07-18 03:45:03.311 CEST [205193] LOG:  redo done at 0/1F2BAC8 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2025-07-18 03:45:03.317 CEST [205191] LOG:  checkpoint starting: end-of-recovery immediate wait
+2025-07-18 03:45:03.332 CEST [205191] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.004 s, sync=0.003 s, total=0.017 s; sync files=2, longest=0.002 s, average=0.002 s; distance=0 kB, estimate=0 kB
+2025-07-18 03:45:03.335 CEST [205190] LOG:  database system is ready to accept connections
+2025-07-18 03:45:05.853 CEST [205312] FATAL:  database "palestra" does not exist
+2025-07-18 03:45:35.838 CEST [205800] ERROR:  relation "members" does not exist at character 15
+2025-07-18 03:45:35.838 CEST [205800] STATEMENT:  SELECT * FROM members
+	;
+2025-07-18 03:46:12.748 CEST [207246] ERROR:  relation "members" does not exist at character 15
+2025-07-18 03:46:12.748 CEST [207246] STATEMENT:  SELECT * FROM members
+	;
+2025-07-18 03:46:15.266 CEST [207246] ERROR:  relation "members" does not exist at character 15
+2025-07-18 03:46:15.266 CEST [207246] STATEMENT:  SELECT * FROM members;
+2025-07-18 03:47:26.657 CEST [210006] ERROR:  relation "member" does not exist at character 43
+2025-07-18 03:47:26.657 CEST [210006] STATEMENT:  SELECT
+	            member.cf
+	        FROM member
+	        WHERE member.cf = $1
+	            AND member.pass = $2;
+	        
+2025-07-18 03:47:33.533 CEST [210225] ERROR:  relation "member" does not exist at character 43
+2025-07-18 03:47:33.533 CEST [210225] STATEMENT:  SELECT
+	            member.cf
+	        FROM member
+	        WHERE member.cf = $1
+	            AND member.pass = $2;
+	        
+2025-07-18 03:48:54.298 CEST [212872] ERROR:  relation "recurrent_class" does not exist at character 35
+2025-07-18 03:48:54.298 CEST [212872] STATEMENT:  SELECT DISTINCT name
+	        FROM recurrent_class;
+2025-07-18 03:50:03.416 CEST [205191] LOG:  checkpoint starting: time
+2025-07-18 03:50:04.232 CEST [205191] LOG:  checkpoint complete: wrote 8 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.803 s, sync=0.004 s, total=0.817 s; sync files=3, longest=0.003 s, average=0.002 s; distance=6 kB, estimate=6 kB
+2025-07-18 03:52:09.345 CEST [205190] LOG:  received fast shutdown request
+2025-07-18 03:52:09.347 CEST [205190] LOG:  aborting any active transactions
+2025-07-18 03:52:09.350 CEST [205190] LOG:  background worker "logical replication launcher" (PID 205196) exited with exit code 1
+2025-07-18 03:52:09.350 CEST [205191] LOG:  shutting down
+2025-07-18 03:52:09.352 CEST [205191] LOG:  checkpoint starting: shutdown immediate
+2025-07-18 03:52:09.367 CEST [205191] LOG:  checkpoint complete: wrote 10 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.003 s, sync=0.006 s, total=0.017 s; sync files=10, longest=0.002 s, average=0.001 s; distance=7 kB, estimate=7 kB
+2025-07-18 03:52:09.369 CEST [205190] LOG:  database system is shut down
