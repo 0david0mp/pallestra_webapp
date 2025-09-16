@@ -1,4 +1,6 @@
 *.zip
+postgres_data
+flake.lock
 
 # Logs
 logs
